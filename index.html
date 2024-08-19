@@ -1,0 +1,403 @@
+<html><head><base href="https://www.ai-interactions.com%20si%20en%20la%20primera%20ves%20que%20se%20abrio%20la%20apk%20sale%20por%20defecto%20y%20carga%20UNE%20CUBA,%20luego%20siempre%20saldr%C3%A1%20y%20carga%20por%20defecto%20%20la%20ultima%20opcion%20puesta%20por%20el%20usuario">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Info Eléctrica Cuba</title>
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+  }
+  .app-container {
+    max-width: 480px;
+    margin: 0 auto;
+    background-color: #fff;
+    min-height: 100vh;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+  .header {
+    background-color: #0066cc;
+    color: white;
+    text-align: center;
+    padding: 15px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  .header h1 {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+  }
+  .content {
+    padding: 20px;
+  }
+  .section {
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 15px;
+  }
+  .section h2 {
+    color: #0066cc;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+  }
+  #message, .history-item {
+    background-color: #f9f9f9;
+    border-left: 4px solid #0066cc;
+    padding: 10px;
+    margin-top: 10px;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #333;
+  }
+  #message a, .history-item a {
+    color: #0066cc;
+    text-decoration: none;
+  }
+  #message a:hover, .history-item a:hover {
+    text-decoration: underline;
+  }
+  #message b, #message strong, .history-item b, .history-item strong {
+    font-weight: 600;
+  }
+  #message i, #message em, .history-item i, .history-item em {
+    font-style: italic;
+  }
+  #datetime, .history-date {
+    color: #666;
+    font-size: 0.8rem;
+    text-align: right;
+    margin-top: 5px;
+  }
+  .button {
+    background-color: #0066cc;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 0.9rem;
+    margin: 10px 0;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+  .button:hover {
+    background-color: #0056b3;
+  }
+  #history, #contact {
+    display: none;
+  }
+  .menu {
+    display: flex;
+    justify-content: space-around;
+    background-color: #f0f2f5;
+    position: sticky;
+    bottom: 0;
+    padding: 10px 0;
+  }
+  .menu-item {
+    text-align: center;
+    color: #0066cc;
+    text-decoration: none;
+    font-size: 0.8rem;
+  }
+  .menu-item i {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+  }
+  .disclaimer {
+    font-size: 0.7rem;
+    color: #666;
+    text-align: center;
+    padding: 10px;
+    background-color: #f0f2f5;
+  }
+  .loading {
+    text-align: center;
+    color: #666;
+  }
+  .error {
+    color: #d93025;
+    text-align: center;
+  }
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+  }
+  .contact-form input, .contact-form textarea {
+    margin-bottom: 10px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  .contact-form textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  #provinceSelector {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    font-size: 1rem;
+  }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+  <div class="app-container">
+    <header class="header">
+      <h1>Info Eléctrica Cuba</h1>
+      <p>Última actualización del servicio</p>
+    </header>
+
+    <div class="content">
+      <section class="section">
+        <h2>Selecciona una provincia</h2>
+        <select id="provinceSelector">
+          <option value="">Selecciona una provincia</option>
+          <option value="https://t.me/s/une_cuba">UNE CUBA</option>
+          <option value="https://t.me/s/elecpinar">Pinar del Río</option>
+          <option value="https://t.me/s/EEArtemisa">Artemisa</option>
+          <option value="https://t.me/s/ceelh">La Habana</option>
+          <option value="https://t.me/s/electricamayabeque">Mayabeque</option>
+          <option value="https://t.me/s/EmpresaElectricaMatanzas">Matanzas</option>
+          <option value="https://t.me/s/empresaelectricacienfuegos1">Cienfuegos</option>
+          <option value="https://t.me/s/electrico1895">Villa Clara</option>
+          <option value="https://t.me/s/informateessp">Sancti Spíritus</option>
+          <option value="https://t.me/s/eecav">Ciego de Ávila</option>
+          <option value="https://t.me/s/empresa_electrica">Camagüey</option>
+          <option value="https://t.me/s/eleclastunas">Las Tunas</option>
+          <option value="https://t.me/s/elecholguin">Holguín</option>
+          <option value="https://t.me/s/UNE_EEG">Granma</option>
+          <option value="https://t.me/s/electricastgo">Santiago de Cuba</option>
+          <option value="https://t.me/s/elecguantanamo">Guantánamo</option>
+        </select>
+      </section>
+
+      <section id="latest-news" class="section">
+        <h2>Última Noticia</h2>
+        <div id="message" class="loading">Cargando último mensaje...</div>
+        <div id="datetime"></div>
+      </section>
+
+      <button id="historyButton" class="button">Ver Historial de Publicaciones</button>
+
+      <section id="history" class="section">
+        <h2>Historial de Publicaciones</h2>
+        <div id="historyContent" class="loading">Cargando historial...</div>
+      </section>
+
+      <section id="about" class="section">
+        <h2>Sobre la App</h2>
+        <p>Esta aplicación proporciona información actualizada sobre el servicio eléctrico en las diferentes provincias de Cuba. Los datos se obtienen de fuentes públicas y se actualizan periódicamente.</p>
+      </section>
+
+      <section id="contact" class="section">
+        <h2>Contacto</h2>
+        <form id="contactForm" class="contact-form">
+          <input type="text" id="name" placeholder="Nombre" required>
+          <input type="email" id="email" placeholder="Correo electrónico" required>
+          <textarea id="messageText" placeholder="Mensaje" required></textarea>
+          <button type="submit" class="button">Enviar mensaje</button>
+        </form>
+      </section>
+    </div>
+
+    <div class="disclaimer">
+      <p>Versión 1.7 | Autor: josevdr95</p>
+      <p>Descargo de responsabilidad: Esta aplicación no está afiliada ni tiene relación oficial con las Empresas Eléctricas de Cuba. La información proporcionada se obtiene de fuentes públicas y puede no estar actualizada o ser precisa en todo momento.</p>
+    </div>
+
+    <nav class="menu">
+      <a href="#latest-news" class="menu-item">
+        <i class="fas fa-bolt"></i><br>
+        Última Noticia
+      </a>
+      <a href="#" id="historyMenu" class="menu-item">
+        <i class="fas fa-history"></i><br>
+        Historial
+      </a>
+      <a href="#about" class="menu-item">
+        <i class="fas fa-info-circle"></i><br>
+        Sobre la App
+      </a>
+      <a href="#" id="contactMenu" class="menu-item">
+        <i class="fas fa-envelope"></i><br>
+        Contacto
+      </a>
+    </nav>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.33/moment-timezone-with-data.min.js"></script>
+  <script>
+    let currentUrl = localStorage.getItem('lastSelectedUrl') || 'https://t.me/s/une_cuba';
+
+    async function getMessages(url) {
+      try {
+        const response = await axios.get('https://api.allorigins.win/get?url=' + encodeURIComponent(url));
+        const html = response.data.contents;
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        return doc.querySelectorAll('.tgme_widget_message');
+      } catch (error) {
+        console.error('Error al obtener los mensajes:', error);
+        return [];
+      }
+    }
+
+    async function displayLatestMessage() {
+      const messageElement = document.getElementById('message');
+      const datetimeElement = document.getElementById('datetime');
+      
+      messageElement.classList.add('loading');
+      messageElement.textContent = 'Cargando el último mensaje...';
+      datetimeElement.textContent = '';
+      
+      const messages = await getMessages(currentUrl);
+      
+      if (messages.length > 0) {
+        const latestMessage = messages[messages.length - 1];
+        const messageTextElement = latestMessage.querySelector('.tgme_widget_message_text');
+        const messageTimeElement = latestMessage.querySelector('.tgme_widget_message_date time');
+        
+        if (messageTextElement && messageTimeElement) {
+          const messageText = messageTextElement.innerHTML;
+          const messageTime = messageTimeElement.getAttribute('datetime');
+          
+          messageElement.innerHTML = messageText;
+          messageElement.classList.remove('loading');
+          
+          const formattedDate = moment(messageTime).tz('America/Havana').format('D MMM YYYY [a las] h:mm A');
+          datetimeElement.textContent = `Publicado el ${formattedDate}`;
+        } else {
+          messageElement.textContent = 'Error al cargar el mensaje.';
+          messageElement.classList.remove('loading');
+          messageElement.classList.add('error');
+        }
+      } else {
+        messageElement.textContent = 'No se encontraron mensajes.';
+        messageElement.classList.remove('loading');
+        messageElement.classList.add('error');
+      }
+    }
+
+    async function displayMessageHistory() {
+      const historyContent = document.getElementById('historyContent');
+      
+      historyContent.classList.add('loading');
+      historyContent.textContent = 'Cargando historial...';
+      
+      const messages = await getMessages(currentUrl);
+      
+      if (messages.length > 0) {
+        historyContent.innerHTML = '';
+        historyContent.classList.remove('loading');
+        
+        messages.forEach((message, index) => {
+          if (index < messages.length - 1) { // Excluye el último mensaje (ya mostrado)
+            const messageTextElement = message.querySelector('.tgme_widget_message_text');
+            const messageTimeElement = message.querySelector('.tgme_widget_message_date time');
+            
+            if (messageTextElement && messageTimeElement) {
+              const messageText = messageTextElement.innerHTML;
+              const messageTime = messageTimeElement.getAttribute('datetime');
+              const formattedDate = moment(messageTime).tz('America/Havana').format('D MMM YYYY [a las] h:mm A');
+              
+              const historyItem = document.createElement('div');
+              historyItem.className = 'history-item';
+              historyItem.innerHTML = `
+                <div>${messageText}</div>
+                <div class="history-date">Publicado el ${formattedDate}</div>
+              `;
+              historyContent.appendChild(historyItem);
+            }
+          }
+        });
+      } else {
+        historyContent.textContent = 'No se encontraron mensajes en el historial.';
+        historyContent.classList.remove('loading');
+        historyContent.classList.add('error');
+      }
+    }
+
+    function toggleSection(sectionId) {
+      const section = document.getElementById(sectionId);
+      if (section.style.display === 'none' || section.style.display === '') {
+        section.style.display = 'block';
+        if (sectionId === 'history') {
+          displayMessageHistory();
+        }
+      } else {
+        section.style.display = 'none';
+      }
+    }
+
+    document.getElementById('provinceSelector').addEventListener('change', function() {
+      currentUrl = this.value;
+      localStorage.setItem('lastSelectedUrl', currentUrl);
+      displayLatestMessage();
+      if (document.getElementById('history').style.display !== 'none') {
+        displayMessageHistory();
+      }
+    });
+
+    document.getElementById('historyButton').addEventListener('click', () => toggleSection('history'));
+    document.getElementById('historyMenu').addEventListener('click', (e) => {
+      e.preventDefault();
+      toggleSection('history');
+    });
+    document.getElementById('contactMenu').addEventListener('click', (e) => {
+      e.preventDefault();
+      toggleSection('contact');
+    });
+
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const message = document.getElementById('messageText').value;
+      
+      // Aquí puedes agregar la lógica para enviar el mensaje, por ejemplo, usando una API
+      console.log('Enviando mensaje:', { name, email, message });
+      
+      // Simulamos el envío con un alert
+      alert('Mensaje enviado con éxito!');
+      
+      // Limpiamos el formulario
+      this.reset();
+    });
+
+    // Navegación suave
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+
+    // Inicializar la app
+    window.addEventListener('load', () => {
+      const provinceSelector = document.getElementById('provinceSelector');
+      provinceSelector.value = currentUrl;
+      displayLatestMessage();
+    });
+  </script>
+</body>
+</html>
