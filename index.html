@@ -1,171 +1,335 @@
-<html><head><base href="https://www.ai-interactions.com%20si%20en%20la%20primera%20ves%20que%20se%20abrio%20la%20apk%20sale%20por%20defecto%20y%20carga%20UNE%20CUBA,%20luego%20siempre%20saldr%C3%A1%20y%20carga%20por%20defecto%20%20la%20ultima%20opcion%20puesta%20por%20el%20usuario">
+<html><head><base href="https://www.ai-interactions.com%20a%C3%B1ade%20una%20An%C3%A1lisis%20de%20Inteligencia%20Artificial%20vabsado%20en%20lso%20datos%20obtenidos%20en%20lso%20mesajes%20de%20cada%20provincia%20y%20del%20dia%20de%20la%20cantidad%20de%20afectcion%20que%20puede%20tener">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Info Eléctrica Cuba</title>
+<title>Info Eléctrica Cuba - Con Análisis IA</title>
 <style>
+  :root {
+    --primary-color: #1565C0;
+    --secondary-color: #2196F3;
+    --background-color: #E3F2FD;
+    --text-color: #212121;
+    --card-background: #FFFFFF;
+    --accent-color: #FFC107;
+    --error-color: #F44336;
+    --success-color: #4CAF50;
+  }
+
   * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
   }
+
   body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #f0f2f5;
-    color: #333;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
   }
+
   .app-container {
-    max-width: 480px;
+    max-width: 100%;
     margin: 0 auto;
-    background-color: #fff;
-    min-height: 100vh;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    padding-bottom: 70px;
   }
+
   .header {
-    background-color: #0066cc;
+    background-color: var(--primary-color);
     color: white;
     text-align: center;
-    padding: 15px;
+    padding: 20px;
     position: sticky;
     top: 0;
     z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
+
   .header h1 {
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     margin-bottom: 5px;
   }
+
   .content {
     padding: 20px;
   }
-  .section {
-    margin-bottom: 20px;
-    background-color: #fff;
+
+  .card {
+    background-color: var(--card-background);
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    padding: 15px;
+    padding: 20px;
+    margin-bottom: 20px;
   }
-  .section h2 {
-    color: #0066cc;
-    margin-bottom: 10px;
-    font-size: 1.1rem;
+
+  .card h2 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
   }
+
+  .card h2 i {
+    margin-right: 10px;
+  }
+
   #message, .history-item {
-    background-color: #f9f9f9;
-    border-left: 4px solid #0066cc;
-    padding: 10px;
-    margin-top: 10px;
+    background-color: var(--card-background);
+    border-left: 4px solid var(--secondary-color);
+    padding: 15px;
+    margin-top: 15px;
     font-size: 1rem;
     line-height: 1.5;
-    color: #333;
+    color: var(--text-color);
+    border-radius: 4px;
   }
+
   #message a, .history-item a {
-    color: #0066cc;
+    color: var(--secondary-color);
     text-decoration: none;
   }
+
   #message a:hover, .history-item a:hover {
     text-decoration: underline;
   }
-  #message b, #message strong, .history-item b, .history-item strong {
-    font-weight: 600;
-  }
-  #message i, #message em, .history-item i, .history-item em {
-    font-style: italic;
-  }
+
   #datetime, .history-date {
-    color: #666;
-    font-size: 0.8rem;
-    text-align: right;
-    margin-top: 5px;
-  }
-  .button {
-    background-color: #0066cc;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
+    color: var(--accent-color);
     font-size: 0.9rem;
-    margin: 10px 0;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s;
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
   }
-  .button:hover {
-    background-color: #0056b3;
+
+  #datetime i, .history-date i {
+    margin-right: 5px;
   }
-  #history, #contact {
+
+  #history {
     display: none;
   }
+
   .menu {
     display: flex;
     justify-content: space-around;
-    background-color: #f0f2f5;
-    position: sticky;
+    background-color: var(--primary-color);
+    position: fixed;
     bottom: 0;
+    left: 0;
+    right: 0;
     padding: 10px 0;
+    box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
   }
+
   .menu-item {
     text-align: center;
-    color: #0066cc;
+    color: white;
     text-decoration: none;
     font-size: 0.8rem;
+    transition: color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
+
+  .menu-item:hover {
+    color: var(--accent-color);
+  }
+
   .menu-item i {
     font-size: 1.5rem;
     margin-bottom: 5px;
   }
+
   .disclaimer {
-    font-size: 0.7rem;
-    color: #666;
+    font-size: 0.8rem;
+    color: #757575;
     text-align: center;
-    padding: 10px;
-    background-color: #f0f2f5;
+    padding: 15px;
+    background-color: var(--card-background);
+    margin-top: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
   }
+
+  .disclaimer .version-info {
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+  }
+
+  .disclaimer .legal-text {
+    font-style: italic;
+  }
+
   .loading {
     text-align: center;
-    color: #666;
+    color: var(--secondary-color);
   }
+
   .error {
-    color: #d93025;
+    color: var(--error-color);
     text-align: center;
   }
-  .contact-form {
-    display: flex;
-    flex-direction: column;
-  }
-  .contact-form input, .contact-form textarea {
-    margin-bottom: 10px;
-    padding: 8px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-  }
-  .contact-form textarea {
-    resize: vertical;
-    min-height: 100px;
-  }
+
   #provinceSelector {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     margin-bottom: 15px;
-    border: 1px solid #ddd;
+    border: 1px solid var(--secondary-color);
     border-radius: 4px;
-    background-color: #fff;
+    background-color: var(--card-background);
     font-size: 1rem;
+    color: var(--text-color);
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%231565C0" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+  }
+
+  #imageContainer img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  #imageDescription {
+    margin-top: 10px;
+    font-style: italic;
+    color: var(--text-color);
+  }
+
+  .donation-section {
+    background-color: var(--secondary-color);
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+    text-align: center;
+    color: white;
+  }
+
+  .donation-section h3 {
+    color: white;
+    margin-bottom: 10px;
+  }
+
+  .donation-number {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: white;
+    background-color: var(--primary-color);
+    padding: 5px 10px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-top: 10px;
+  }
+
+  #notificationToggle {
+    background-color: var(--accent-color);
+    color: var(--text-color);
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #notificationToggle i {
+    margin-right: 5px;
+  }
+
+  #notificationToggle:hover {
+    background-color: #FFD54F;
+  }
+
+  #notificationStatus {
+    margin-top: 10px;
+    font-style: italic;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #notificationStatus i {
+    margin-right: 5px;
+  }
+
+  #aiAnalysis {
+    background-color: var(--card-background);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 20px;
+    margin-top: 20px;
+  }
+
+  #aiAnalysis h2 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+  }
+
+  #aiAnalysis h2 i {
+    margin-right: 10px;
+  }
+
+  #aiAnalysisContent {
+    background-color: #F5F5F5;
+    border-left: 4px solid var(--accent-color);
+    padding: 15px;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--text-color);
+    border-radius: 4px;
+  }
+
+  .affection-level {
+    font-weight: bold;
+    margin-top: 10px;
+  }
+
+  .affection-level.high {
+    color: var(--error-color);
+  }
+
+  .affection-level.medium {
+    color: var(--accent-color);
+  }
+
+  .affection-level.low {
+    color: var(--success-color);
+  }
+
+  @media (min-width: 768px) {
+    .app-container {
+      max-width: 768px;
+    }
   }
 </style>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
   <div class="app-container">
     <header class="header">
-      <h1>Info Eléctrica Cuba</h1>
+      <h1><i class="fas fa-bolt"></i> Info Eléctrica Cuba</h1>
       <p>Última actualización del servicio</p>
     </header>
 
     <div class="content">
-      <section class="section">
-        <h2>Selecciona una provincia</h2>
+      <div class="card" id="selector-card">
+        <h2><i class="fas fa-map-marker-alt"></i> Selecciona una provincia</h2>
         <select id="provinceSelector">
           <option value="">Selecciona una provincia</option>
           <option value="https://t.me/s/une_cuba">UNE CUBA</option>
@@ -185,75 +349,89 @@
           <option value="https://t.me/s/electricastgo">Santiago de Cuba</option>
           <option value="https://t.me/s/elecguantanamo">Guantánamo</option>
         </select>
-      </section>
+        <button id="notificationToggle"><i class="fas fa-bell"></i> Activar notificaciones</button>
+        <p id="notificationStatus"><i class="fas fa-info-circle"></i> Estado de notificaciones</p>
+      </div>
 
-      <section id="latest-news" class="section">
-        <h2>Última Noticia</h2>
+      <div id="latest-news" class="card">
+        <h2><i class="fas fa-newspaper"></i> Última Noticia</h2>
+        <div id="datetime"><i class="far fa-clock"></i> <span></span></div>
         <div id="message" class="loading">Cargando último mensaje...</div>
-        <div id="datetime"></div>
-      </section>
+      </div>
 
-      <button id="historyButton" class="button">Ver Historial de Publicaciones</button>
+      <div id="imageSection" class="card" style="display:none;">
+        <h2><i class="far fa-image"></i> Imagen del mensaje</h2>
+        <div id="imageContainer"></div>
+        <p id="imageDescription"></p>
+      </div>
 
-      <section id="history" class="section">
-        <h2>Historial de Publicaciones</h2>
-        <div id="historyContent" class="loading">Cargando historial...</div>
-      </section>
+      <div id="aiAnalysis" class="card">
+        <h2><i class="fas fa-brain"></i> Análisis de IA</h2>
+        <div id="aiAnalysisContent" class="loading">Analizando datos...</div>
+      </div>
 
-      <section id="about" class="section">
-        <h2>Sobre la App</h2>
+      <div id="history" class="card">
+        <h2><i class="fas fa-history"></i> Publicaciones</h2>
+        <div id="historyContent" class="loading">Cargando publicaciones...</div>
+      </div>
+
+      <div id="about" class="card">
+        <h2><i class="fas fa-info-circle"></i> Sobre la App</h2>
         <p>Esta aplicación proporciona información actualizada sobre el servicio eléctrico en las diferentes provincias de Cuba. Los datos se obtienen de fuentes públicas y se actualizan periódicamente.</p>
-      </section>
+      </div>
 
-      <section id="contact" class="section">
-        <h2>Contacto</h2>
-        <form id="contactForm" class="contact-form">
-          <input type="text" id="name" placeholder="Nombre" required>
-          <input type="email" id="email" placeholder="Correo electrónico" required>
-          <textarea id="messageText" placeholder="Mensaje" required></textarea>
-          <button type="submit" class="button">Enviar mensaje</button>
-        </form>
-      </section>
+      <div class="donation-section">
+        <h3><i class="fas fa-hand-holding-heart"></i> Apoya nuestro trabajo</h3>
+        <p>Si encuentras útil esta aplicación, considera hacer una donación para mantenerla actualizada y mejorarla.</p>
+        <p>Número para donaciones: <span class="donation-number"><i class="fas fa-phone"></i> 123456789</span></p>
+      </div>
     </div>
 
     <div class="disclaimer">
-      <p>Versión 1.7 | Autor: josevdr95</p>
-      <p>Descargo de responsabilidad: Esta aplicación no está afiliada ni tiene relación oficial con las Empresas Eléctricas de Cuba. La información proporcionada se obtiene de fuentes públicas y puede no estar actualizada o ser precisa en todo momento.</p>
+      <p class="version-info"><i class="fas fa-code-branch"></i> Versión 1.18 | Autor: josevdr95</p>
+      <p class="legal-text"><i class="fas fa-exclamation-triangle"></i> Descargo de responsabilidad: Esta aplicación no está afiliada ni tiene relación oficial con las Empresas Eléctricas de Cuba. La información proporcionada se obtiene de fuentes públicas y puede no estar actualizada o ser precisa en todo momento. El uso de esta aplicación es bajo su propia responsabilidad.</p>
     </div>
 
     <nav class="menu">
-      <a href="#latest-news" class="menu-item">
-        <i class="fas fa-bolt"></i><br>
+      <a href="#latest-news" class="menu-item" id="latestNewsMenu">
+        <i class="fas fa-bolt"></i>
         Última Noticia
       </a>
-      <a href="#" id="historyMenu" class="menu-item">
-        <i class="fas fa-history"></i><br>
-        Historial
+      <a href="#history" id="historyMenu" class="menu-item">
+        <i class="fas fa-history"></i>
+        Mostrar publicaciones
       </a>
-      <a href="#about" class="menu-item">
-        <i class="fas fa-info-circle"></i><br>
+      <a href="#about" class="menu-item" id="aboutMenu">
+        <i class="fas fa-info-circle"></i>
         Sobre la App
-      </a>
-      <a href="#" id="contactMenu" class="menu-item">
-        <i class="fas fa-envelope"></i><br>
-        Contacto
       </a>
     </nav>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.33/moment-timezone-with-data.min.js"></script>
   <script>
     let currentUrl = localStorage.getItem('lastSelectedUrl') || 'https://t.me/s/une_cuba';
+    let lastMessageId = localStorage.getItem('lastMessageId') || '';
+    let notificationsEnabled = JSON.parse(localStorage.getItem('notificationsEnabled')) || false;
+    let checkInterval;
 
-    async function getMessages(url) {
+    const messageElement = document.getElementById('message');
+    const datetimeElement = document.getElementById('datetime').querySelector('span');
+    const imageSection = document.getElementById('imageSection');
+    const imageContainer = document.getElementById('imageContainer');
+    const imageDescription = document.getElementById('imageDescription');
+    const historyContent = document.getElementById('historyContent');
+    const provinceSelector = document.getElementById('provinceSelector');
+    const notificationToggle = document.getElementById('notificationToggle');
+    const notificationStatus = document.getElementById('notificationStatus');
+    const aiAnalysisContent = document.getElementById('aiAnalysisContent');
+
+    async function fetchMessages(url) {
       try {
-        const response = await axios.get('https://api.allorigins.win/get?url=' + encodeURIComponent(url));
-        const html = response.data.contents;
+        const response = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent(url));
+        const data = await response.json();
         const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
-        return doc.querySelectorAll('.tgme_widget_message');
+        const doc = parser.parseFromString(data.contents, 'text/html');
+        return Array.from(doc.querySelectorAll('.tgme_widget_message'));
       } catch (error) {
         console.error('Error al obtener los mensajes:', error);
         return [];
@@ -261,78 +439,149 @@
     }
 
     async function displayLatestMessage() {
-      const messageElement = document.getElementById('message');
-      const datetimeElement = document.getElementById('datetime');
-      
       messageElement.classList.add('loading');
-      messageElement.textContent = 'Cargando el último mensaje...';
+      messageElement.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Cargando el último mensaje...';
       datetimeElement.textContent = '';
+      imageSection.style.display = 'none';
+      imageContainer.innerHTML = '';
+      imageDescription.textContent = '';
       
-      const messages = await getMessages(currentUrl);
+      const messages = await fetchMessages(currentUrl);
       
       if (messages.length > 0) {
         const latestMessage = messages[messages.length - 1];
+        const messageId = latestMessage.getAttribute('data-post');
         const messageTextElement = latestMessage.querySelector('.tgme_widget_message_text');
         const messageTimeElement = latestMessage.querySelector('.tgme_widget_message_date time');
+        const messageImage = latestMessage.querySelector('.tgme_widget_message_photo_wrap');
         
-        if (messageTextElement && messageTimeElement) {
-          const messageText = messageTextElement.innerHTML;
+        if (messageId !== lastMessageId) {
+          lastMessageId = messageId;
+          localStorage.setItem('lastMessageId', lastMessageId);
+          if (notificationsEnabled) {
+            notifyNewMessage();
+          }
+        }
+        
+        if (messageTimeElement) {
           const messageTime = messageTimeElement.getAttribute('datetime');
-          
-          messageElement.innerHTML = messageText;
-          messageElement.classList.remove('loading');
-          
-          const formattedDate = moment(messageTime).tz('America/Havana').format('D MMM YYYY [a las] h:mm A');
+          const formattedDate = new Date(messageTime).toLocaleString('es-ES', { timeZone: 'America/Havana', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
           datetimeElement.textContent = `Publicado el ${formattedDate}`;
+        }
+        
+        if (messageImage) {
+          const imageStyle = messageImage.getAttribute('style');
+          const imageUrlMatch = imageStyle.match(/url\('(.+)'\)/);
+          if (imageUrlMatch && imageUrlMatch[1]) {
+            const imageUrl = imageUrlMatch[1];
+            imageContainer.innerHTML = `<img src="${imageUrl}" alt="Imagen del mensaje" loading="lazy">`;
+            imageSection.style.display = 'block';
+            
+            const imageAlt = messageImage.querySelector('img')?.getAttribute('alt') || 'Imagen del mensaje';
+            imageDescription.textContent = `Descripción: ${imageAlt}`;
+          }
+        }
+        
+        if (messageTextElement) {
+          messageElement.innerHTML = messageTextElement.innerHTML;
+          messageElement.classList.remove('loading');
+        } else if (messageImage) {
+          messageElement.innerHTML = '<i class="far fa-image"></i> El último mensaje contiene una imagen.';
+          messageElement.classList.remove('loading');
         } else {
-          messageElement.textContent = 'Error al cargar el mensaje.';
+          messageElement.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Error al cargar el mensaje.';
           messageElement.classList.remove('loading');
           messageElement.classList.add('error');
         }
+
+        analyzeMessage(messageTextElement ? messageTextElement.textContent : '');
       } else {
-        messageElement.textContent = 'No se encontraron mensajes.';
+        messageElement.innerHTML = '<i class="fas fa-exclamation-circle"></i> No se encontraron mensajes.';
         messageElement.classList.remove('loading');
         messageElement.classList.add('error');
       }
     }
 
     async function displayMessageHistory() {
-      const historyContent = document.getElementById('historyContent');
-      
       historyContent.classList.add('loading');
-      historyContent.textContent = 'Cargando historial...';
+      historyContent.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Cargando publicaciones...';
       
-      const messages = await getMessages(currentUrl);
+      const messages = await fetchMessages(currentUrl);
       
       if (messages.length > 0) {
         historyContent.innerHTML = '';
         historyContent.classList.remove('loading');
         
-        messages.forEach((message, index) => {
-          if (index < messages.length - 1) { // Excluye el último mensaje (ya mostrado)
-            const messageTextElement = message.querySelector('.tgme_widget_message_text');
-            const messageTimeElement = message.querySelector('.tgme_widget_message_date time');
-            
-            if (messageTextElement && messageTimeElement) {
-              const messageText = messageTextElement.innerHTML;
-              const messageTime = messageTimeElement.getAttribute('datetime');
-              const formattedDate = moment(messageTime).tz('America/Havana').format('D MMM YYYY [a las] h:mm A');
+        messages.slice(-10).reverse().forEach((message) => {
+          const messageTextElement = message.querySelector('.tgme_widget_message_text');
+          const messageTimeElement = message.querySelector('.tgme_widget_message_date time');
+          const messageImage = message.querySelector('.tgme_widget_message_photo_wrap');
+          
+          const historyItem = document.createElement('div');
+          historyItem.className = 'history-item';
+          
+          if (messageTimeElement) {
+            const messageTime = messageTimeElement.getAttribute('datetime');
+            const formattedDate = new Date(messageTime).toLocaleString('es-ES', { timeZone: 'America/Havana', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+            historyItem.innerHTML += `<div class="history-date"><i class="far fa-clock"></i> Publicado el ${formattedDate}</div>`;
+          }
+          
+          if (messageImage) {
+            const imageStyle = messageImage.getAttribute('style');
+            const imageUrlMatch = imageStyle.match(/url\('(.+)'\)/);
+            if (imageUrlMatch && imageUrlMatch[1]) {
+              const imageUrl = imageUrlMatch[1];
+              historyItem.innerHTML += `<img src="${imageUrl}" alt="Imagen del mensaje" loading="lazy" style="max-width: 100%; height: auto; margin-top: 10px;">`;
               
-              const historyItem = document.createElement('div');
-              historyItem.className = 'history-item';
-              historyItem.innerHTML = `
-                <div>${messageText}</div>
-                <div class="history-date">Publicado el ${formattedDate}</div>
-              `;
-              historyContent.appendChild(historyItem);
+              const imageAlt = messageImage.querySelector('img')?.getAttribute('alt') || 'Imagen del mensaje';
+              historyItem.innerHTML += `<p><i class="far fa-image"></i> Descripción: ${imageAlt}</p>`;
             }
           }
+          
+          if (messageTextElement) {
+            historyItem.innerHTML += `<div>${messageTextElement.innerHTML}</div>`;
+          }
+          
+          historyContent.appendChild(historyItem);
         });
       } else {
-        historyContent.textContent = 'No se encontraron mensajes en el historial.';
+        historyContent.innerHTML = '<i class="fas fa-exclamation-circle"></i> No se encontraron publicaciones.';
         historyContent.classList.remove('loading');
         historyContent.classList.add('error');
       }
+    }
+
+    function analyzeMessage(messageText) {
+      aiAnalysisContent.classList.add('loading');
+      aiAnalysisContent.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analizando datos...';
+
+      // Simular un análisis de IA (en una implementación real, esto se haría en el servidor)
+      setTimeout(() => {
+        const keywordsHigh = ['apagón', 'interrupción', 'grave', 'urgente'];
+        const keywordsMedium = ['mantenimiento', 'reparación', 'avería'];
+        const keywordsLow = ['actualización', 'mejora', 'normalizado'];
+
+        let affectionLevel = 'bajo';
+        let analysis = 'Basado en el análisis del mensaje, ';
+
+        if (keywordsHigh.some(keyword => messageText.toLowerCase().includes(keyword))) {
+          affectionLevel = 'alto';
+          analysis += 'se detecta una situación de alta afectación en el servicio eléctrico. ';
+        } else if (keywordsMedium.some(keyword => messageText.toLowerCase().includes(keyword))) {
+          affectionLevel = 'medio';
+          analysis += 'se identifica una afectación moderada en el servicio eléctrico. ';
+        } else {
+          analysis += 'parece haber una situación de baja afectación o normalidad en el servicio eléctrico. ';
+        }
+
+        analysis += 'Se recomienda estar atento a futuras actualizaciones.';
+
+        aiAnalysisContent.innerHTML = `
+          ${analysis}
+          <div class="affection-level ${affectionLevel}">Nivel de afectación: ${affectionLevel.toUpperCase()}</div>
+        `;
+        aiAnalysisContent.classList.remove('loading');
+      }, 1500);
     }
 
     function toggleSection(sectionId) {
@@ -347,56 +596,100 @@
       }
     }
 
-    document.getElementById('provinceSelector').addEventListener('change', function() {
+    function notifyNewMessage() {
+      if ("Notification" in window) {
+        if (Notification.permission === "granted") {
+          new Notification("Nuevo mensaje eléctrico", {
+            body: "Hay un nuevo mensaje disponible. Toca para verlo.",
+            icon: "https://example.com/icon.png"
+          });
+        } else if (Notification.permission !== "denied") {
+          Notification.requestPermission().then(function (permission) {
+            if (permission === "granted") {
+              new Notification("Nuevo mensaje eléctrico", {
+                body: "Hay un nuevo mensaje disponible. Toca para verlo.",
+                icon: "https://example.com/icon.png"
+              });
+            }
+          });
+        }
+      }
+    }
+
+    function toggleNotifications() {
+      notificationsEnabled = !notificationsEnabled;
+      localStorage.setItem('notificationsEnabled', JSON.stringify(notificationsEnabled));
+      updateNotificationStatus();
+      
+      if (notificationsEnabled) {
+        startCheckingForNewMessages();
+      } else {
+        stopCheckingForNewMessages();
+      }
+    }
+
+    function updateNotificationStatus() {
+      if (notificationsEnabled) {
+        notificationToggle.innerHTML = '<i class="fas fa-bell-slash"></i> Desactivar notificaciones';
+        notificationStatus.innerHTML = '<i class="fas fa-check-circle"></i> Las notificaciones están activadas.';
+      } else {
+        notificationToggle.innerHTML = '<i class="fas fa-bell"></i> Activar notificaciones';
+        notificationStatus.innerHTML = '<i class="fas fa-times-circle"></i> Las notificaciones están desactivadas.';
+      }
+    }
+
+    function startCheckingForNewMessages() {
+      checkInterval = setInterval(displayLatestMessage, 300000);
+    }
+
+    function stopCheckingForNewMessages() {
+      clearInterval(checkInterval);
+    }
+
+    function scrollToSection(sectionId) {
+      const section = document.getElementById(sectionId);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+
+    provinceSelector.addEventListener('change', function() {
       currentUrl = this.value;
       localStorage.setItem('lastSelectedUrl', currentUrl);
       displayLatestMessage();
       if (document.getElementById('history').style.display !== 'none') {
         displayMessageHistory();
       }
+      scrollToSection('latest-news');
     });
 
-    document.getElementById('historyButton').addEventListener('click', () => toggleSection('history'));
-    document.getElementById('historyMenu').addEventListener('click', (e) => {
+    document.getElementById('latestNewsMenu').addEventListener('click', function(e) {
+      e.preventDefault();
+      displayLatestMessage();
+      scrollToSection('latest-news');
+    });
+
+    document.getElementById('historyMenu').addEventListener('click', function(e) {
       e.preventDefault();
       toggleSection('history');
+      displayMessageHistory();
+      scrollToSection('history');
     });
-    document.getElementById('contactMenu').addEventListener('click', (e) => {
+
+    document.getElementById('aboutMenu').addEventListener('click', function(e) {
       e.preventDefault();
-      toggleSection('contact');
+      scrollToSection('about');
     });
 
-    document.getElementById('contactForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const name = document.getElementById('name').value;
-      const email = document.getElementById('email').value;
-      const message = document.getElementById('messageText').value;
-      
-      // Aquí puedes agregar la lógica para enviar el mensaje, por ejemplo, usando una API
-      console.log('Enviando mensaje:', { name, email, message });
-      
-      // Simulamos el envío con un alert
-      alert('Mensaje enviado con éxito!');
-      
-      // Limpiamos el formulario
-      this.reset();
-    });
+    notificationToggle.addEventListener('click', toggleNotifications);
 
-    // Navegación suave
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-          behavior: 'smooth'
-        });
-      });
-    });
-
-    // Inicializar la app
     window.addEventListener('load', () => {
-      const provinceSelector = document.getElementById('provinceSelector');
       provinceSelector.value = currentUrl;
       displayLatestMessage();
+      updateNotificationStatus();
+      if (notificationsEnabled) {
+        startCheckingForNewMessages();
+      }
     });
   </script>
 </body>
