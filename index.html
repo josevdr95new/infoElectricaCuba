@@ -1,7 +1,7 @@
-<html><head><base href="https://www.ai-interactions.com%20a%C3%B1ade%20una%20An%C3%A1lisis%20de%20Inteligencia%20Artificial%20vabsado%20en%20lso%20datos%20obtenidos%20en%20lso%20mesajes%20de%20cada%20provincia%20y%20del%20dia%20de%20la%20cantidad%20de%20afectcion%20que%20puede%20tener">
+<html><head><base href="https://www.ai-interactions.com%20en%20analisi%20de%20la%20Ai%20se%20llevara%20acabo%20cuando%20se%20listen%20todos%20los%20mensajes%20y%20basados%20en%20ellos%20ser%C3%A1%20an%C3%A1lisis">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Info Eléctrica Cuba - Con Análisis IA</title>
+<title>Info Eléctrica Cuba - Análisis IA Mejorado</title>
 <style>
   :root {
     --primary-color: #1565C0;
@@ -365,14 +365,14 @@
         <p id="imageDescription"></p>
       </div>
 
-      <div id="aiAnalysis" class="card">
-        <h2><i class="fas fa-brain"></i> Análisis de IA</h2>
-        <div id="aiAnalysisContent" class="loading">Analizando datos...</div>
-      </div>
-
       <div id="history" class="card">
         <h2><i class="fas fa-history"></i> Publicaciones</h2>
         <div id="historyContent" class="loading">Cargando publicaciones...</div>
+      </div>
+
+      <div id="aiAnalysis" class="card">
+        <h2><i class="fas fa-brain"></i> Análisis de IA</h2>
+        <div id="aiAnalysisContent" class="loading">Esperando datos para analizar...</div>
       </div>
 
       <div id="about" class="card">
@@ -388,7 +388,7 @@
     </div>
 
     <div class="disclaimer">
-      <p class="version-info"><i class="fas fa-code-branch"></i> Versión 1.18 | Autor: josevdr95</p>
+      <p class="version-info"><i class="fas fa-code-branch"></i> Versión 1.19 | Autor: josevdr95</p>
       <p class="legal-text"><i class="fas fa-exclamation-triangle"></i> Descargo de responsabilidad: Esta aplicación no está afiliada ni tiene relación oficial con las Empresas Eléctricas de Cuba. La información proporcionada se obtiene de fuentes públicas y puede no estar actualizada o ser precisa en todo momento. El uso de esta aplicación es bajo su propia responsabilidad.</p>
     </div>
 
@@ -493,8 +493,6 @@
           messageElement.classList.remove('loading');
           messageElement.classList.add('error');
         }
-
-        analyzeMessage(messageTextElement ? messageTextElement.textContent : '');
       } else {
         messageElement.innerHTML = '<i class="fas fa-exclamation-circle"></i> No se encontraron mensajes.';
         messageElement.classList.remove('loading');
@@ -511,6 +509,8 @@
       if (messages.length > 0) {
         historyContent.innerHTML = '';
         historyContent.classList.remove('loading');
+        
+        const messagesToAnalyze = [];
         
         messages.slice(-10).reverse().forEach((message) => {
           const messageTextElement = message.querySelector('.tgme_widget_message_text');
@@ -540,10 +540,13 @@
           
           if (messageTextElement) {
             historyItem.innerHTML += `<div>${messageTextElement.innerHTML}</div>`;
+            messagesToAnalyze.push(messageTextElement.textContent);
           }
           
           historyContent.appendChild(historyItem);
         });
+        
+        analyzeMessages(messagesToAnalyze);
       } else {
         historyContent.innerHTML = '<i class="fas fa-exclamation-circle"></i> No se encontraron publicaciones.';
         historyContent.classList.remove('loading');
@@ -551,34 +554,50 @@
       }
     }
 
-    function analyzeMessage(messageText) {
+    function analyzeMessages(messages) {
       aiAnalysisContent.classList.add('loading');
       aiAnalysisContent.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analizando datos...';
 
-      // Simular un análisis de IA (en una implementación real, esto se haría en el servidor)
       setTimeout(() => {
-        const keywordsHigh = ['apagón', 'interrupción', 'grave', 'urgente'];
-        const keywordsMedium = ['mantenimiento', 'reparación', 'avería'];
-        const keywordsLow = ['actualización', 'mejora', 'normalizado'];
+        const keywordsHigh = ['apagón', 'interrupción', 'grave', 'urgente', 'emergencia'];
+        const keywordsMedium = ['mantenimiento', 'reparación', 'avería', 'falla'];
+        const keywordsLow = ['actualización', 'mejora', 'normalizado', 'estable'];
 
-        let affectionLevel = 'bajo';
-        let analysis = 'Basado en el análisis del mensaje, ';
+        let highCount = 0;
+        let mediumCount = 0;
+        let lowCount = 0;
 
-        if (keywordsHigh.some(keyword => messageText.toLowerCase().includes(keyword))) {
-          affectionLevel = 'alto';
-          analysis += 'se detecta una situación de alta afectación en el servicio eléctrico. ';
-        } else if (keywordsMedium.some(keyword => messageText.toLowerCase().includes(keyword))) {
-          affectionLevel = 'medio';
-          analysis += 'se identifica una afectación moderada en el servicio eléctrico. ';
+        messages.forEach(message => {
+          const lowercaseMessage = message.toLowerCase();
+          if (keywordsHigh.some(keyword => lowercaseMessage.includes(keyword))) {
+            highCount++;
+          } else if (keywordsMedium.some(keyword => lowercaseMessage.includes(keyword))) {
+            mediumCount++;
+          } else if (keywordsLow.some(keyword => lowercaseMessage.includes(keyword))) {
+            lowCount++;
+          }
+        });
+
+        let overallAffectionLevel;
+        let analysis = 'Basado en el análisis de los últimos mensajes: ';
+
+        if (highCount > mediumCount && highCount > lowCount) {
+          overallAffectionLevel = 'alto';
+          analysis += 'Se detecta una situación general de alta afectación en el servicio eléctrico. ';
+        } else if (mediumCount > highCount && mediumCount > lowCount) {
+          overallAffectionLevel = 'medio';
+          analysis += 'Se identifica una afectación moderada en el servicio eléctrico. ';
         } else {
-          analysis += 'parece haber una situación de baja afectación o normalidad en el servicio eléctrico. ';
+          overallAffectionLevel = 'bajo';
+          analysis += 'Parece haber una situación de baja afectación o normalidad en el servicio eléctrico. ';
         }
 
-        analysis += 'Se recomienda estar atento a futuras actualizaciones.';
+        analysis += `Se encontraron ${highCount} menciones de alta gravedad, ${mediumCount} de gravedad media, y ${lowCount} de baja gravedad o normalidad. `;
+        analysis += 'Se recomienda estar atento a futuras actualizaciones y seguir las indicaciones oficiales.';
 
         aiAnalysisContent.innerHTML = `
           ${analysis}
-          <div class="affection-level ${affectionLevel}">Nivel de afectación: ${affectionLevel.toUpperCase()}</div>
+          <div class="affection-level ${overallAffectionLevel}">Nivel general de afectación: ${overallAffectionLevel.toUpperCase()}</div>
         `;
         aiAnalysisContent.classList.remove('loading');
       }, 1500);
