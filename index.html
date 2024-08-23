@@ -7,9 +7,7 @@
     <meta name="description" content="Información actualizada sobre el estado del servicio eléctrico en Cuba.">
     <meta name="keywords" content="electricidad, Cuba, servicio eléctrico, información, provincias">
     <meta name="author" content="josevdr95">
-	<link rel="manifest" href="manifest.json">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
-	
     <!-- Estilos y fuentes -->
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -47,6 +45,12 @@
                 </select>
                 <button id="refresh-button" aria-label="Actualizar mensajes"><i class="fas fa-sync-alt"></i></button>
             </div>
+        </section>
+
+        <!-- Contador de usuarios en línea -->
+        <section id="online-users-container" class="card">
+            <h2><i class="fas fa-user"></i> Usuarios en línea</h2>
+            <p id="online-users">Cargando...</p>
         </section>
 
         <!-- Indicador de carga -->
