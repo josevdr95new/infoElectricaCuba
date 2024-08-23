@@ -4,98 +4,97 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Info Eléctrica Cuba - Optimizada</title>
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#0056b3">
-    <link rel="icon" href="/icon-192x192.png" type="image/png">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 20px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        h1 {
-            color: #0056b3;
-        }
-        select {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 20px;
-        }
-        button {
-            background-color: #0056b3;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-        }
-        #ultimaNoticia, #publicaciones {
-            margin-top: 20px;
-            border: 1px solid #ddd;
-            padding: 10px;
-        }
-    </style>
+    <meta name="description" content="Información actualizada sobre el estado del servicio eléctrico en Cuba.">
+    <meta name="keywords" content="electricidad, Cuba, servicio eléctrico, información, provincias">
+    <meta name="author" content="josevdr95">
+	<link rel="manifest" href="manifest.json">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+	
+    <!-- Estilos y fuentes -->
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <h1>Info Eléctrica Cuba</h1>
+    <header>
+        <h1><i class="fas fa-bolt"></i> Info Eléctrica Cuba</h1>
+        <button id="toggle-dark-mode-button" aria-label="Toggle Dark Mode"><i class="fas fa-moon"></i></button>
+    </header>
     
-    <h2>Última actualización del servicio</h2>
-    <select id="provinciaSelect">
-        <option value="">Selecciona una provincia</option>
-        <option value="pinar">Pinar del Río</option>
-        <option value="artemisa">Artemisa</option>
-        <option value="habana">La Habana</option>
-        <!-- Agrega más opciones para las otras provincias -->
-    </select>
+    <main class="container">
+        <!-- Selector de provincia -->
+        <section class="card">
+            <h2><i class="fas fa-map-marker-alt"></i> Selecciona una provincia</h2>
+            <div class="select-container">
+                <select id="province-select" aria-label="Selector de provincia">
+                    <option value="https://t.me/s/une_cuba">UNE CUBA</option>
+                    <option value="https://t.me/s/elecpinar">Pinar del Río</option>
+                    <option value="https://t.me/s/EEArtemisa">Artemisa</option>
+                    <option value="https://t.me/s/EmpresaElectricaDeLaHabana">La Habana</option>
+                    <option value="https://t.me/s/electricamayabeque">Mayabeque</option>
+                    <option value="https://t.me/s/EmpresaElectricaMatanzas">Matanzas</option>
+                    <option value="https://t.me/s/empresaelectricacienfuegos1">Cienfuegos</option>
+                    <option value="https://t.me/s/electrico1895">Villa Clara</option>
+                    <option value="https://t.me/s/informateessp">Sancti Spíritus</option>
+                    <option value="https://t.me/s/eecav">Ciego de Ávila</option>
+                    <option value="https://t.me/s/empresa_electrica">Camagüey</option>
+                    <option value="https://t.me/s/eleclastunas">Las Tunas</option>
+                    <option value="https://t.me/s/elecholguin">Holguín</option>
+                    <option value="https://t.me/s/UNE_EEG">Granma</option>
+                    <option value="https://t.me/s/electricastgo">Santiago de Cuba</option>
+                    <option value="https://t.me/s/elecguantanamo">Guantánamo</option>
+                </select>
+                <button id="refresh-button" aria-label="Actualizar mensajes"><i class="fas fa-sync-alt"></i></button>
+            </div>
+        </section>
 
-    <h2>Última Noticia</h2>
-    <div id="ultimaNoticia">Cargando último mensaje...</div>
+        <!-- Indicador de carga -->
+        <div id="loading-container" class="loading hidden">
+            <div class="loader"></div>
+            <p>Cargando mensajes...</p>
+        </div>
 
-    <h2>Publicaciones</h2>
-    <div id="publicaciones">Cargando publicaciones...</div>
+        <!-- Contenedor del último mensaje -->
+        <section id="latest-message-container" class="card">
+            <h2><i class="fas fa-newspaper"></i> Último Mensaje</h2>
+            <p>Selecciona una provincia para ver el último mensaje.</p>
+        </section>
 
-    <h2>Estadísticas en Tiempo Real</h2>
-    <p>Usuarios en línea: <span id="usuariosEnLinea">--</span></p>
+        <!-- Contenedor de todos los mensajes -->
+        <section id="messages-container" class="card hidden">
+            <h2><i class="fas fa-list"></i> Todos los Mensajes</h2>
+        </section>
 
-    <h2>Sobre la App</h2>
-    <p>Esta aplicación proporciona información actualizada sobre el servicio eléctrico en las diferentes provincias de Cuba. Los datos se obtienen de fuentes públicas y se actualizan periódicamente.</p>
-    <p>Versión 1.25 | Autor: josevdr95</p>
+        <!-- Información de contacto -->
+        <section id="contact-info-container" class="hidden card">
+            <h2><i class="fas fa-address-book"></i> Contacto</h2>
+            <p><a href="mailto:josevdr95@gmail.com"><i class="fas fa-envelope"></i> Enviar un correo</a></p>
+        </section>
+    </main>
 
-    <p><small>Descargo de responsabilidad: Esta aplicación no está afiliada ni tiene relación oficial con las Empresas Eléctricas de Cuba. La información proporcionada se obtiene de fuentes públicas y puede no estar actualizada o ser precisa en todo momento. El uso de esta aplicación es bajo su propia responsabilidad.</small></p>
+    <footer>
+        <nav class="menu">
+            <a href="#latest-message-container" class="menu-item" id="latestNewsMenu">
+                <i class="fas fa-bolt"></i>
+                Última Noticia
+            </a>
+            <a href="#" id="showAllMessagesMenu" class="menu-item">
+                <i class="fas fa-list"></i>
+                Mostrar Publicaciones
+            </a>
+            <a href="#" class="menu-item" id="contact-link">
+                <i class="fas fa-envelope"></i>
+                Contacto
+            </a>
+        </nav>
+    </footer>
 
-    <script>
-        // Aquí iría tu código JavaScript para cargar los datos y actualizar la interfaz
-        // Por ejemplo:
-        document.getElementById('provinciaSelect').addEventListener('change', function(e) {
-            // Código para cargar información de la provincia seleccionada
-        });
+    <div class="disclaimer">
+        <p class="version-info"><i class="fas fa-code-branch"></i> Versión 1.0 | Autor: josevdr95</p>
+        <p class="legal-text"><i class="fas fa-exclamation-triangle"></i> Descargo de responsabilidad: Esta aplicación no está afiliada ni tiene relación oficial con las Empresas Eléctricas de Cuba. La información proporcionada se obtiene de fuentes públicas y puede no estar actualizada o ser precisa en todo momento. El uso de esta aplicación es bajo su propia responsabilidad.</p>
+    </div>
 
-        // Función para cargar la última noticia
-        function cargarUltimaNoticia() {
-            // Simula una carga de datos
-            setTimeout(() => {
-                document.getElementById('ultimaNoticia').textContent = 'Última noticia cargada...';
-            }, 1000);
-        }
-
-        // Función para cargar publicaciones
-        function cargarPublicaciones() {
-            // Simula una carga de datos
-            setTimeout(() => {
-                document.getElementById('publicaciones').textContent = 'Publicaciones cargadas...';
-            }, 1500);
-        }
-
-        // Cargar datos al iniciar la página
-        cargarUltimaNoticia();
-        cargarPublicaciones();
-
-        // Simular actualización de usuarios en línea
-        setInterval(() => {
-            document.getElementById('usuariosEnLinea').textContent = Math.floor(Math.random() * 100);
-        }, 5000);
-    </script>
+    <script src="script.js" defer></script>
 </body>
 </html>
