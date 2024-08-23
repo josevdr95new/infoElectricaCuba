@@ -1,22 +1,13 @@
 {
-  "short_name": "Información Eléctrica Cuba",
-  "name": "Información sobre Electricidad en Cuba",
-  "description": "Esta aplicación móvil proporciona información detallada sobre el sistema eléctrico en Cuba, incluyendo noticias, tarifas, consejos de ahorro y más.",
-  "icons": [
-    {
-      "src": "icon-192x192.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "icon-512x512.png",
-      "type": "image/png",
-      "sizes": "512x512"
-    }
-  ],
-  "start_url": "https://josevdr95new.github.io/infoElectricaCuba/",
-  "background_color": "#ffffff",
+  "background_color": "#e11313",
+  "dir": "ltr",
   "display": "standalone",
+  "name": "josevdr95new.github",
+  "orientation": "any",
   "scope": "/",
-  "theme_color": "#007bff"
+  "short_name": "josevdr95new.github",
+  "start_url": "/",
+  "theme_color": "#121111",
+  "id": "josevdr95",
+  "description": "OK"
 }
