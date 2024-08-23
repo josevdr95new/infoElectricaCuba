@@ -1,614 +1,101 @@
-<html><head><base href="https://www.ai-interactions.com/">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Info Eléctrica Cuba - Optimizada</title>
-<link rel="manifest" href="/manifest.json">
-<style>
-  :root {
-    --primary-color: #1565C0;
-    --secondary-color: #2196F3;
-    --background-color: #E3F2FD;
-    --text-color: #212121;
-    --card-background: #FFFFFF;
-    --accent-color: #FFC107;
-    --error-color: #F44336;
-    --success-color: #4CAF50;
-  }
-
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
-    background-color: var(--background-color);
-    color: var(--text-color);
-    line-height: 1.6;
-  }
-
-  .app-container {
-    max-width: 100%;
-    margin: 0 auto;
-    padding-bottom: 70px;
-  }
-
-  .header {
-    background-color: var(--primary-color);
-    color: white;
-    text-align: center;
-    padding: 20px;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  }
-
-  .header h1 {
-    font-size: 1.5rem;
-    margin-bottom: 5px;
-  }
-
-  .content {
-    padding: 20px;
-  }
-
-  .card {
-    background-color: var(--card-background);
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    padding: 20px;
-    margin-bottom: 20px;
-  }
-
-  .card h2 {
-    color: var(--primary-color);
-    margin-bottom: 15px;
-    font-size: 1.2rem;
-    display: flex;
-    align-items: center;
-  }
-
-  .card h2 i {
-    margin-right: 10px;
-  }
-
-  #message, .history-item {
-    background-color: var(--card-background);
-    border-left: 4px solid var(--secondary-color);
-    padding: 15px;
-    margin-top: 15px;
-    font-size: 1rem;
-    line-height: 1.5;
-    color: var(--text-color);
-    border-radius: 4px;
-  }
-
-  #message a, .history-item a {
-    color: var(--secondary-color);
-    text-decoration: none;
-  }
-
-  #message a:hover, .history-item a:hover {
-    text-decoration: underline;
-  }
-
-  #datetime, .history-date {
-    color: var(--accent-color);
-    font-size: 0.9rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-  }
-
-  #datetime i, .history-date i {
-    margin-right: 5px;
-  }
-
-  #history {
-    display: none;
-  }
-
-  .menu {
-    display: flex;
-    justify-content: space-around;
-    background-color: var(--primary-color);
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 10px 0;
-    box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
-  }
-
-  .menu-item {
-    text-align: center;
-    color: white;
-    text-decoration: none;
-    font-size: 0.8rem;
-    transition: color 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .menu-item:hover {
-    color: var(--accent-color);
-  }
-
-  .menu-item i {
-    font-size: 1.5rem;
-    margin-bottom: 5px;
-  }
-
-  .disclaimer {
-    font-size: 0.8rem;
-    color: #757575;
-    text-align: center;
-    padding: 15px;
-    background-color: var(--card-background);
-    margin-top: 30px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-  }
-
-  .disclaimer .version-info {
-    font-weight: bold;
-    color: var(--primary-color);
-    margin-bottom: 10px;
-  }
-
-  .disclaimer .legal-text {
-    font-style: italic;
-  }
-
-  .loading {
-    text-align: center;
-    color: var(--secondary-color);
-  }
-
-  .error {
-    color: var(--error-color);
-    text-align: center;
-    padding: 10px;
-    background-color: #FFEBEE;
-    border-radius: 4px;
-    margin-top: 10px;
-  }
-
-  #provinceSelector {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 15px;
-    border: 1px solid var(--secondary-color);
-    border-radius: 4px;
-    background-color: var(--card-background);
-    font-size: 1rem;
-    color: var(--text-color);
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background-image: url('data:image/svg+xml;utf8,<svg fill="%231565C0" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-  }
-
-  #imageContainer img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  }
-
-  #imageDescription {
-    margin-top: 10px;
-    font-style: italic;
-    color: var(--text-color);
-    background-color: #f0f0f0;
-    padding: 10px;
-    border-radius: 4px;
-    border-left: 4px solid var(--accent-color);
-  }
-
-  .highlighted-content {
-    background-color: #FFFF00;
-    font-weight: bold;
-  }
-
-  #statistics {
-    background-color: var(--card-background);
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    padding: 20px;
-    margin-top: 20px;
-  }
-
-  #statistics h2 {
-    color: var(--primary-color);
-    margin-bottom: 15px;
-    font-size: 1.2rem;
-    display: flex;
-    align-items: center;
-  }
-
-  #statistics h2 i {
-    margin-right: 10px;
-  }
-
-  #statisticsContent {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-  }
-
-  .stat-item {
-    background-color: #F5F5F5;
-    border-left: 4px solid var(--accent-color);
-    padding: 15px;
-    font-size: 1rem;
-    line-height: 1.5;
-    color: var(--text-color);
-    border-radius: 4px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .stat-value {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: var(--primary-color);
-    margin-top: 5px;
-  }
-
-  @media (min-width: 768px) {
-    .app-container {
-      max-width: 768px;
-    }
-  }
-</style>
-<link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Info Eléctrica Cuba - Optimizada</title>
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0056b3">
+    <link rel="icon" href="/icon-192x192.png" type="image/png">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #0056b3;
+        }
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: #0056b3;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        #ultimaNoticia, #publicaciones {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+    </style>
 </head>
 <body>
-  <div class="app-container">
-    <header class="header">
-      <h1><i class="fas fa-bolt"></i> Info Eléctrica Cuba</h1>
-      <p>Última actualización del servicio</p>
-    </header>
+    <h1>Info Eléctrica Cuba</h1>
+    
+    <h2>Última actualización del servicio</h2>
+    <select id="provinciaSelect">
+        <option value="">Selecciona una provincia</option>
+        <option value="pinar">Pinar del Río</option>
+        <option value="artemisa">Artemisa</option>
+        <option value="habana">La Habana</option>
+        <!-- Agrega más opciones para las otras provincias -->
+    </select>
 
-    <div class="content">
-      <div class="card" id="selector-card">
-        <h2><i class="fas fa-map-marker-alt"></i> Selecciona una provincia</h2>
-        <select id="provinceSelector">
-          <option value="">Selecciona una provincia</option>
-          <option value="https://t.me/s/une_cuba">UNE CUBA</option>
-          <option value="https://t.me/s/elecpinar">Pinar del Río</option>
-          <option value="https://t.me/s/EEArtemisa">Artemisa</option>
-          <option value="https://t.me/s/ceelh">La Habana</option>
-          <option value="https://t.me/s/electricamayabeque">Mayabeque</option>
-          <option value="https://t.me/s/EmpresaElectricaMatanzas">Matanzas</option>
-          <option value="https://t.me/s/empresaelectricacienfuegos1">Cienfuegos</option>
-          <option value="https://t.me/s/electrico1895">Villa Clara</option>
-          <option value="https://t.me/s/informateessp">Sancti Spíritus</option>
-          <option value="https://t.me/s/eecav">Ciego de Ávila</option>
-          <option value="https://t.me/s/empresa_electrica">Camagüey</option>
-          <option value="https://t.me/s/eleclastunas">Las Tunas</option>
-          <option value="https://t.me/s/elecholguin">Holguín</option>
-          <option value="https://t.me/s/UNE_EEG">Granma</option>
-          <option value="https://t.me/s/electricastgo">Santiago de Cuba</option>
-          <option value="https://t.me/s/elecguantanamo">Guantánamo</option>
-        </select>
-      </div>
+    <h2>Última Noticia</h2>
+    <div id="ultimaNoticia">Cargando último mensaje...</div>
 
-      <div id="latest-news" class="card">
-        <h2><i class="fas fa-newspaper"></i> Última Noticia</h2>
-        <div id="datetime"><i class="far fa-clock"></i> <span></span></div>
-        <div id="message" class="loading">Cargando último mensaje...</div>
-      </div>
+    <h2>Publicaciones</h2>
+    <div id="publicaciones">Cargando publicaciones...</div>
 
-      <div id="imageSection" class="card" style="display:none;">
-        <h2><i class="far fa-image"></i> Contenido de la imagen</h2>
-        <div id="imageContainer"></div>
-        <p id="imageDescription"></p>
-      </div>
+    <h2>Estadísticas en Tiempo Real</h2>
+    <p>Usuarios en línea: <span id="usuariosEnLinea">--</span></p>
 
-      <div id="history" class="card">
-        <h2><i class="fas fa-history"></i> Publicaciones</h2>
-        <div id="historyContent" class="loading">Cargando publicaciones...</div>
-      </div>
+    <h2>Sobre la App</h2>
+    <p>Esta aplicación proporciona información actualizada sobre el servicio eléctrico en las diferentes provincias de Cuba. Los datos se obtienen de fuentes públicas y se actualizan periódicamente.</p>
+    <p>Versión 1.25 | Autor: josevdr95</p>
 
-      <div id="statistics" class="card">
-        <h2><i class="fas fa-chart-bar"></i> Estadísticas en Tiempo Real</h2>
-        <div id="statisticsContent">
-          <div class="stat-item">
-            <span>Usuarios en línea</span>
-            <span id="onlineUsers" class="stat-value">--</span>
-          </div>
-        </div>
-      </div>
+    <p><small>Descargo de responsabilidad: Esta aplicación no está afiliada ni tiene relación oficial con las Empresas Eléctricas de Cuba. La información proporcionada se obtiene de fuentes públicas y puede no estar actualizada o ser precisa en todo momento. El uso de esta aplicación es bajo su propia responsabilidad.</small></p>
 
-      <div id="about" class="card">
-        <h2><i class="fas fa-info-circle"></i> Sobre la App</h2>
-        <p>Esta aplicación proporciona información actualizada sobre el servicio eléctrico en las diferentes provincias de Cuba. Los datos se obtienen de fuentes públicas y se actualizan periódicamente.</p>
-      </div>
-    </div>
-
-    <div class="disclaimer">
-      <p class="version-info"><i class="fas fa-code-branch"></i> Versión 1.25 | Autor: josevdr95</p>
-      <p class="legal-text"><i class="fas fa-exclamation-triangle"></i> Descargo de responsabilidad: Esta aplicación no está afiliada ni tiene relación oficial con las Empresas Eléctricas de Cuba. La información proporcionada se obtiene de fuentes públicas y puede no estar actualizada o ser precisa en todo momento. El uso de esta aplicación es bajo su propia responsabilidad.</p>
-    </div>
-
-    <nav class="menu">
-      <a href="#latest-news" class="menu-item" id="latestNewsMenu">
-        <i class="fas fa-bolt"></i>
-        Última Noticia
-      </a>
-      <a href="#history" id="historyMenu" class="menu-item">
-        <i class="fas fa-history"></i>
-        Mostrar publicaciones
-      </a>
-      <a href="#about" class="menu-item" id="aboutMenu">
-        <i class="fas fa-info-circle"></i>
-        Sobre la App
-      </a>
-    </nav>
-  </div>
-
-  <script>
-    let currentUrl = localStorage.getItem('lastSelectedUrl') || 'https://t.me/s/une_cuba';
-    let lastMessageId = localStorage.getItem('lastMessageId') || '';
-    let historyVisible = false;
-
-    const messageElement = document.getElementById('message');
-    const datetimeElement = document.getElementById('datetime').querySelector('span');
-    const imageSection = document.getElementById('imageSection');
-    const imageContainer = document.getElementById('imageContainer');
-    const imageDescription = document.getElementById('imageDescription');
-    const historyContent = document.getElementById('historyContent');
-    const provinceSelector = document.getElementById('provinceSelector');
-
-    async function fetchMessages(url) {
-      try {
-        const response = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent(url));
-        if (!response.ok) throw new Error('Network response was not ok');
-        const data = await response.json();
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(data.contents, 'text/html');
-        return Array.from(doc.querySelectorAll('.tgme_widget_message'));
-      } catch (error) {
-        console.error('Error al obtener los mensajes:', error);
-        throw error;
-      }
-    }
-
-    async function displayLatestMessage() {
-      messageElement.classList.add('loading');
-      messageElement.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Cargando el último mensaje...';
-      datetimeElement.textContent = '';
-      imageSection.style.display = 'none';
-      imageContainer.innerHTML = '';
-      imageDescription.textContent = '';
-      
-      try {
-        const messages = await fetchMessages(currentUrl);
-        
-        if (messages.length > 0) {
-          const latestMessage = messages[messages.length - 1];
-          const messageId = latestMessage.getAttribute('data-post');
-          const messageTextElement = latestMessage.querySelector('.tgme_widget_message_text');
-          const messageTimeElement = latestMessage.querySelector('.tgme_widget_message_date time');
-          const messageImage = latestMessage.querySelector('.tgme_widget_message_photo_wrap');
-          
-          if (messageId !== lastMessageId) {
-            lastMessageId = messageId;
-            localStorage.setItem('lastMessageId', lastMessageId);
-          }
-          
-          if (messageTimeElement) {
-            const messageTime = messageTimeElement.getAttribute('datetime');
-            const formattedDate = new Date(messageTime).toLocaleString('es-ES', { timeZone: 'America/Havana', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-            datetimeElement.textContent = `Publicado el ${formattedDate}`;
-          }
-          
-          if (messageImage) {
-            const imageStyle = messageImage.getAttribute('style');
-            const imageUrlMatch = imageStyle.match(/url\('(.+)'\)/);
-            if (imageUrlMatch && imageUrlMatch[1]) {
-              imageSection.style.display = 'block';
-              
-              const imageUrl = imageUrlMatch[1];
-              const ocrResult = await performOCR(imageUrl);
-              
-              imageDescription.innerHTML = `<strong>Contenido de la imagen:</strong><br><span class="highlighted-content">${ocrResult || 'No se pudo extraer texto de la imagen.'}</span>`;
-            }
-          }
-          
-          if (messageTextElement) {
-            messageElement.innerHTML = messageTextElement.innerHTML;
-            messageElement.classList.remove('loading');
-          } else if (messageImage) {
-            messageElement.innerHTML = '<i class="far fa-image"></i> El último mensaje contiene una imagen.';
-            messageElement.classList.remove('loading');
-          } else {
-            throw new Error('No se encontró contenido en el mensaje');
-          }
-        } else {
-          throw new Error('No se encontraron mensajes');
-        }
-      } catch (error) {
-        console.error('Error:', error);
-        messageElement.innerHTML = `<div class="error"><i class="fas fa-exclamation-triangle"></i> Error de conexión: ${error.message}</div>`;
-        messageElement.classList.remove('loading');
-      }
-    }
-
-    async function displayMessageHistory() {
-      if (!historyVisible) {
-        historyContent.classList.add('loading');
-        historyContent.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Cargando publicaciones...';
-        
-        try {
-          const messages = await fetchMessages(currentUrl);
-          
-          if (messages.length > 0) {
-            historyContent.innerHTML = '';
-            historyContent.classList.remove('loading');
-            
-            messages.slice(-10).reverse().forEach((message) => {
-              const messageTextElement = message.querySelector('.tgme_widget_message_text');
-              const messageTimeElement = message.querySelector('.tgme_widget_message_date time');
-              const messageImage = message.querySelector('.tgme_widget_message_photo_wrap');
-              
-              const historyItem = document.createElement('div');
-              historyItem.className = 'history-item';
-              
-              if (messageTimeElement) {
-                const messageTime = messageTimeElement.getAttribute('datetime');
-                const formattedDate = new Date(messageTime).toLocaleString('es-ES', { timeZone: 'America/Havana', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
-                historyItem.innerHTML += `<div class="history-date"><i class="far fa-clock"></i> Publicado el ${formattedDate}</div>`;
-              }
-              
-              if (messageImage) {
-                const imageStyle = messageImage.getAttribute('style');
-                const imageUrlMatch = imageStyle.match(/url\('(.+)'\)/);
-                if (imageUrlMatch && imageUrlMatch[1]) {
-                  const imageUrl = imageUrlMatch[1];
-                  historyItem.innerHTML += `<p><i class="far fa-image"></i> El mensaje contiene una imagen.</p>`;
-                  
-                  performOCR(imageUrl).then(ocrResult => {
-                    historyItem.innerHTML += `<p><strong>Contenido de la imagen:</strong><br><span class="highlighted-content">${ocrResult || 'No se pudo extraer texto de la imagen.'}</span></p>`;
-                  });
-                }
-              }
-              
-              if (messageTextElement) {
-                historyItem.innerHTML += `<div>${messageTextElement.innerHTML}</div>`;
-              }
-              
-              historyContent.appendChild(historyItem);
-            });
-          } else {
-            throw new Error('No se encontraron publicaciones');
-          }
-        } catch (error) {
-          console.error('Error:', error);
-          historyContent.innerHTML = `<div class="error"><i class="fas fa-exclamation-triangle"></i> Error de conexión: ${error.message}</div>`;
-          historyContent.classList.remove('loading');
-        }
-      }
-      document.getElementById('history').style.display = historyVisible ? 'none' : 'block';
-      historyVisible = !historyVisible;
-    }
-
-    async function performOCR(imageUrl) {
-      // Esta es una función simulada de OCR. En una implementación real,
-      // aquí se llamaría a una API de OCR como Google Cloud Vision o Tesseract.js
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          const randomTexts = [
-            "AVISO IMPORTANTE\nInterrupción del servicio\nDe 2:00 PM a 4:00 PM",
-            "ACTUALIZACIÓN\nServicio restablecido\nGracias por su paciencia",
-            "MANTENIMIENTO PROGRAMADO\nFecha: 15/06/2023\nHora: 9:00 AM - 12:00 PM",
-            "ALERTA\nPosibles interrupciones\nDebido a condiciones meteorológicas",
-            "INFORMACIÓN\nConsumo eléctrico por zonas\nVer detalles en nuestra web"
-          ];
-          resolve(randomTexts[Math.floor(Math.random() * randomTexts.length)]);
-        }, 1000); // Simulamos un tiempo de procesamiento de 1 segundo
-      });
-    }
-
-    function scrollToSection(sectionId) {
-      const section = document.getElementById(sectionId);
-      if (section) {
-        section.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-
-    function updateStatistics() {
-      // Simulamos estadísticas en tiempo real solo para usuarios en línea
-      document.getElementById('onlineUsers').textContent = Math.floor(Math.random() * 1000) + 500;
-    }
-
-    provinceSelector.addEventListener('change', function() {
-      currentUrl = this.value;
-      localStorage.setItem('lastSelectedUrl', currentUrl);
-      displayLatestMessage();
-      if (historyVisible) {
-        displayMessageHistory();
-      }
-      scrollToSection('latest-news');
-    });
-
-    document.getElementById('latestNewsMenu').addEventListener('click', function(e) {
-      e.preventDefault();
-      displayLatestMessage();
-      scrollToSection('latest-news');
-    });
-
-    document.getElementById('historyMenu').addEventListener('click', function(e) {
-      e.preventDefault();
-      displayMessageHistory();
-      scrollToSection('history');
-    });
-
-    document.getElementById('aboutMenu').addEventListener('click', function(e) {
-      e.preventDefault();
-      scrollToSection('about');
-    });
-
-    // Optimizaciones para mejorar el rendimiento
-    const debouncedUpdateStatistics = debounce(updateStatistics, 5000);
-
-    window.addEventListener('load', () => {
-      provinceSelector.value = currentUrl;
-      displayLatestMessage();
-      updateStatistics();
-      window.addEventListener('scroll', debouncedUpdateStatistics, { passive: true });
-    });
-
-    // Función de debounce para optimizar llamadas frecuentes
-    function debounce(func, wait) {
-      let timeout;
-      return function executedFunction(...args) {
-        const later = () => {
-          clearTimeout(timeout);
-          func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-      };
-    }
-
-    // Precarga de recursos
-    window.addEventListener('load', () => {
-      if ('IntersectionObserver' in window) {
-        const imageObserver = new IntersectionObserver((entries, observer) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              const img = entry.target;
-              img.src = img.dataset.src;
-              img.classList.remove('lazy');
-              imageObserver.unobserve(img);
-            }
-          });
+    <script>
+        // Aquí iría tu código JavaScript para cargar los datos y actualizar la interfaz
+        // Por ejemplo:
+        document.getElementById('provinciaSelect').addEventListener('change', function(e) {
+            // Código para cargar información de la provincia seleccionada
         });
 
-        document.querySelectorAll('img.lazy').forEach(img => {
-          imageObserver.observe(img);
-        });
-      }
-    });
+        // Función para cargar la última noticia
+        function cargarUltimaNoticia() {
+            // Simula una carga de datos
+            setTimeout(() => {
+                document.getElementById('ultimaNoticia').textContent = 'Última noticia cargada...';
+            }, 1000);
+        }
 
-    // Manejo de errores mejorado
-    window.addEventListener('error', function(e) {
-      console.error('Error capturado:', e.error);
-      // Aquí podrías implementar un sistema de reporte de errores
-    });
-  </script>
+        // Función para cargar publicaciones
+        function cargarPublicaciones() {
+            // Simula una carga de datos
+            setTimeout(() => {
+                document.getElementById('publicaciones').textContent = 'Publicaciones cargadas...';
+            }, 1500);
+        }
+
+        // Cargar datos al iniciar la página
+        cargarUltimaNoticia();
+        cargarPublicaciones();
+
+        // Simular actualización de usuarios en línea
+        setInterval(() => {
+            document.getElementById('usuariosEnLinea').textContent = Math.floor(Math.random() * 100);
+        }, 5000);
+    </script>
 </body>
 </html>
