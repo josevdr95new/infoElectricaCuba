@@ -1,0 +1,34 @@
+{
+  "name": "Info Eléctrica Cuba",
+  "short_name": "Info Eléctrica",
+  "description": "Información actualizada sobre el servicio eléctrico en las provincias de Cuba",
+  "start_url": "https://josevdr95new.github.io/infoElectricaCuba/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0056b3",
+  "icons": [
+    {
+      "src": "icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "lang": "es-CU",
+  "dir": "ltr",
+  "orientation": "any",
+  "categories": ["utilities", "news"],
+  "screenshots": [
+    {
+      "src": "screenshot1.jpg",
+      "sizes": "1280x720",
+      "type": "image/jpeg"
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
+}
