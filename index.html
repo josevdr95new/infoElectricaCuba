@@ -3,102 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Info Eléctrica Cuba - Optimizada</title>
-    <meta name="description" content="Información actualizada sobre el estado del servicio eléctrico en Cuba.">
-    <meta name="keywords" content="electricidad, Cuba, servicio eléctrico, información, provincias">
+    <title>Descarga Info Eléctrica Cuba</title>
+    <meta name="description" content="Descarga la aplicación Info Eléctrica Cuba para obtener información actualizada sobre el estado del servicio eléctrico en Cuba.">
+    <meta name="keywords" content="descarga, aplicación, Info Eléctrica Cuba, servicio eléctrico, Cuba">
     <meta name="author" content="josevdr95">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
-    <!-- Estilos y fuentes -->
     <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <header>
-        <h1><i class="fas fa-bolt"></i> Info Eléctrica Cuba</h1>
-        <button id="toggle-dark-mode-button" aria-label="Toggle Dark Mode"><i class="fas fa-moon"></i></button>
+        <h1>Descarga Info Eléctrica Cuba</h1>
+        <nav>
+            <a href="#features">Características</a>
+            <a href="#download">Descargar</a>
+            <a href="#contact">Contacto</a>
+        </nav>
     </header>
-    
-    <main class="container">
-        <!-- Selector de provincia -->
-        <section class="card">
-            <h2><i class="fas fa-map-marker-alt"></i> Selecciona una provincia</h2>
-            <div class="select-container">
-                <select id="province-select" aria-label="Selector de provincia">
-                    <option value="https://t.me/s/une_cuba">UNE CUBA</option>
-                    <option value="https://t.me/s/elecpinar">Pinar del Río</option>
-                    <option value="https://t.me/s/EEArtemisa">Artemisa</option>
-                    <option value="https://t.me/s/EmpresaElectricaDeLaHabana">La Habana</option>
-                    <option value="https://t.me/s/electricamayabeque">Mayabeque</option>
-                    <option value="https://t.me/s/EmpresaElectricaMatanzas">Matanzas</option>
-                    <option value="https://t.me/s/empresaelectricacienfuegos1">Cienfuegos</option>
-                    <option value="https://t.me/s/electrico1895">Villa Clara</option>
-                    <option value="https://t.me/s/informateessp">Sancti Spíritus</option>
-                    <option value="https://t.me/s/eecav">Ciego de Ávila</option>
-                    <option value="https://t.me/s/empresa_electrica">Camagüey</option>
-                    <option value="https://t.me/s/eleclastunas">Las Tunas</option>
-                    <option value="https://t.me/s/elecholguin">Holguín</option>
-                    <option value="https://t.me/s/UNE_EEG">Granma</option>
-                    <option value="https://t.me/s/electricastgo">Santiago de Cuba</option>
-                    <option value="https://t.me/s/elecguantanamo">Guantánamo</option>
-                </select>
-                <button id="refresh-button" aria-label="Actualizar mensajes"><i class="fas fa-sync-alt"></i></button>
+
+    <main>
+        <section id="hero">
+            <h2>La mejor manera de mantenerse informado sobre el servicio eléctrico en Cuba</h2>
+            <p>Descarga nuestra aplicación para obtener información actualizada sobre el estado del servicio eléctrico en tu provincia.</p>
+            <a href="#download" class="btn">Descargar Ahora</a>
+        </section>
+
+        <section id="features">
+            <h2>Características</h2>
+            <div class="feature">
+                <i class="fas fa-bolt"></i>
+                <h3>Información Actualizada</h3>
+                <p>Obtén la información más reciente sobre el estado del servicio eléctrico en todas las provincias de Cuba.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-bell"></i>
+                <h3>Notificaciones en Tiempo Real</h3>
+                <p>Recibe alertas y notificaciones sobre interrupciones y restablecimientos del servicio.</p>
+            </div>
+            <div class="feature">
+                <i class="fas fa-map-marker-alt"></i>
+                <h3>Selección de Provincia</h3>
+                <p>Selecciona tu provincia para ver información específica y relevante para tu área.</p>
             </div>
         </section>
 
-        <!-- Contador de usuarios en línea -->
-        <section id="online-users-container" class="card">
-            <h2><i class="fas fa-user"></i> Usuarios en línea</h2>
-            <p id="online-users">Cargando...</p>
+        <section id="download">
+            <h2>Descargar</h2>
+            <p>La aplicación está disponible para dispositivos Android. Haz clic en el botón de abajo para descargar el archivo APK.</p>
+            <a href="infoElectricaCuba.apk" class="btn" download>Descargar APK</a>
         </section>
 
-        <!-- Indicador de carga -->
-        <div id="loading-container" class="loading hidden">
-            <div class="loader"></div>
-            <p>Cargando mensajes...</p>
-        </div>
-
-        <!-- Contenedor del último mensaje -->
-        <section id="latest-message-container" class="card">
-            <h2><i class="fas fa-newspaper"></i> Último Mensaje</h2>
-            <p>Selecciona una provincia para ver el último mensaje.</p>
-        </section>
-
-        <!-- Contenedor de todos los mensajes -->
-        <section id="messages-container" class="card hidden">
-            <h2><i class="fas fa-list"></i> Todos los Mensajes</h2>
-        </section>
-
-        <!-- Información de contacto -->
-        <section id="contact-info-container" class="hidden card">
-            <h2><i class="fas fa-address-book"></i> Contacto</h2>
-            <p><a href="mailto:josevdr95@gmail.com"><i class="fas fa-envelope"></i> Enviar un correo</a></p>
+        <section id="contact">
+            <h2>Contacto</h2>
+            <p>Si tienes alguna pregunta o comentario, no dudes en contactarnos.</p>
+            <p>Email: <a href="mailto:josevdr95@gmail.com">josevdr95@gmail.com</a></p>
         </section>
     </main>
 
     <footer>
-        <nav class="menu">
-            <a href="#latest-message-container" class="menu-item" id="latestNewsMenu">
-                <i class="fas fa-bolt"></i>
-                Última Noticia
-            </a>
-            <a href="#" id="showAllMessagesMenu" class="menu-item">
-                <i class="fas fa-list"></i>
-                Mostrar Publicaciones
-            </a>
-            <a href="#" class="menu-item" id="contact-link">
-                <i class="fas fa-envelope"></i>
-                Contacto
-            </a>
-        </nav>
+        <p>&copy; 2023 Info Eléctrica Cuba. Todos los derechos reservados.</p>
+        <p class="legal-text"><i class="fas fa-exclamation-triangle"></i> Descargo de responsabilidad: Esta aplicación no está afiliada ni tiene relación oficial con las Empresas Eléctricas de Cuba. La información proporcionada se obtiene de fuentes públicas y puede no estar actualizada o ser precisa en todo momento. El uso de esta aplicación es bajo su propia responsabilidad.</p>
     </footer>
 
-    <div class="disclaimer">
-        <p class="version-info"><i class="fas fa-code-branch"></i> Versión 1.0 | Autor: josevdr95</p>
-        <p class="legal-text"><i class="fas fa-exclamation-triangle"></i> Descargo de responsabilidad: Esta aplicación no está afiliada ni tiene relación oficial con las Empresas Eléctricas de Cuba. La información proporcionada se obtiene de fuentes públicas y puede no estar actualizada o ser precisa en todo momento. El uso de esta aplicación es bajo su propia responsabilidad.</p>
-    </div>
-
-    <script src="script.js" defer></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
 </html>
