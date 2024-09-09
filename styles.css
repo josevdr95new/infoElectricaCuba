@@ -98,6 +98,13 @@ header nav a:hover {
     margin-bottom: 1rem;
 }
 
+.feature-img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-top: 1rem;
+}
+
 #download, #contact {
     padding: 4rem 1rem;
     text-align: center;
