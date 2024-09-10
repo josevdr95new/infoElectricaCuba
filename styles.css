@@ -150,3 +150,59 @@ footer p {
     margin-top: 1rem;
     padding: 0 1rem;
 }
+
+/* Media Queries */
+@media (max-width: 768px) {
+    .feature {
+        display: block;
+        width: 80%;
+        margin: 2rem auto;
+    }
+
+    #hero h2 {
+        font-size: 2rem;
+    }
+
+    #hero p {
+        font-size: 1rem;
+    }
+
+    #features h2, #download h2, #contact h2 {
+        font-size: 1.5rem;
+    }
+
+    #download p, #contact p {
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    header nav a {
+        display: block;
+        margin: 0.5rem 0;
+    }
+
+    #hero h2 {
+        font-size: 1.5rem;
+    }
+
+    #hero p {
+        font-size: 0.9rem;
+    }
+
+    #hero .btn {
+        padding: 0.8rem 1.5rem;
+    }
+
+    .feature {
+        width: 90%;
+    }
+
+    #features h2, #download h2, #contact h2 {
+        font-size: 1.3rem;
+    }
+
+    #download p, #contact p {
+        font-size: 0.9rem;
+    }
+}
