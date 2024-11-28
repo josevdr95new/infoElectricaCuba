@@ -1,208 +1,262 @@
-body {
-    font-family: 'Roboto', sans-serif;
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    background-color: #f4f4f4;
-    color: #333;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: background-color 0.3s, color 0.3s;
 }
 
-header {
-    background-color: #007bff;
-    color: white;
-    padding: 1rem 0;
+body {
+    background: #f0f2f5;
+    padding: 20px;
+}
+
+body.dark-mode {
+    background: #1a1a1a;
+    color: #ffffff;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header {
     text-align: center;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-header nav a {
+    padding: 20px;
+    background: linear-gradient(135deg, #2196f3, #3f51b5);
     color: white;
-    margin: 0 1rem;
-    text-decoration: none;
-    font-weight: 500;
+    border-radius: 10px;
+    margin-bottom: 30px;
 }
 
-header nav a:hover {
-    text-decoration: underline;
+.dark-mode .header {
+    background: linear-gradient(135deg, #1a237e, #0d47a1);
 }
 
-#hero {
-    background: url('hero-image.jpg') no-repeat center center/cover;
-    color: white;
-    text-align: center;
-    padding: 5rem 1rem;
-    box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.5);
-}
-
-#hero h2 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-}
-
-#hero p {
-    font-size: 1.2rem;
-    margin-bottom: 2rem;
-}
-
-#hero .btn {
-    background-color: #ffcd38;
-    color: #333;
-    padding: 1rem 2rem;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: 700;
-    transition: background-color 0.3s ease;
-}
-
-#hero .btn:hover {
-    background-color: #ffb400;
-}
-
-#features {
-    background-color: #f7f7f7;
-    padding: 4rem 1rem;
-    text-align: center;
-}
-
-#features h2 {
-    font-size: 2rem;
-    margin-bottom: 2rem;
-}
-
-.feature {
-    display: inline-block;
-    width: 30%;
-    margin: 1rem;
-    padding: 1rem;
+.settings-panel {
     background: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.dark-mode .settings-panel {
+    background: #2d2d2d;
+    box-shadow: 0 2px 5px rgba(255,255,255,0.1);
+}
+
+.theme-toggle {
+    background: #3f51b5;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.dark-mode .theme-toggle {
+    background: #7986cb;
+}
+
+.font-size-controls {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.font-button {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+.credits {
+    text-align: center;
+    font-size: 0.9em;
+    color: #666;
+    margin: 10px 0 20px;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+}
+
+.dark-mode .credits {
+    background: #2d2d2d;
+    color: #aaa;
+}
+
+.disclaimer {
+    background: #fff3cd;
+    border: 1px solid #ffeeba;
+    padding: 15px;
     border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 0.9em;
+    color: #856404;
+}
+
+.dark-mode .disclaimer {
+    background: #2c2410;
+    border-color: #6b5710;
+    color: #ffd54f;
+}
+
+.person-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.person-card {
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     transition: transform 0.3s ease;
 }
 
-.feature:hover {
-    transform: translateY(-10px);
+.person-card:hover {
+    transform: translateY(-5px);
 }
 
-.feature i {
-    font-size: 2.5rem;
-    color: #007bff;
-    margin-bottom: 1rem;
-}
-
-.feature h3 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-}
-
-.feature-img {
+.person-image {
     width: 100%;
-    height: auto;
+    height: 200px;
+    object-fit: cover;
     border-radius: 8px;
-    margin-top: 1rem;
+    margin-bottom: 15px;
+    cursor: pointer;
 }
 
-#download, #contact {
-    padding: 4rem 1rem;
-    text-align: center;
+.person-name {
+    color: #1a237e;
+    font-size: 1.2em;
+    margin-bottom: 10px;
 }
 
-#download h2, #contact h2 {
-    font-size: 2rem;
-    margin-bottom: 2rem;
+.person-info {
+    color: #666;
+    font-size: 0.9em;
+    line-height: 1.5;
+    margin-bottom: 10px;
+    overflow: hidden;
+    position: relative;
+    max-height: 100px;
+    transition: max-height 0.3s ease;
 }
 
-#download p, #contact p {
-    font-size: 1.2rem;
-    margin-bottom: 2rem;
+.person-info.expanded {
+    max-height: 1000px;
 }
 
-#download .btn {
-    background-color: #007bff;
+.read-more {
+    background: #3f51b5;
     color: white;
-    padding: 1rem 2rem;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: 700;
-    transition: background-color 0.3s ease;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 0.9em;
+    margin-top: 10px;
 }
 
-#download .btn:hover {
-    background-color: #0056b3;
+.read-more:hover {
+    background: #303f9f;
 }
 
-footer {
-    background-color: #333;
+.search-box {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 25px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    font-size: 1.1em;
+}
+
+.share-button, .email-button, .premium-button {
+    position: fixed;
+    right: 2px;
+    background: #4CAF50;
     color: white;
-    text-align: center;
-    padding: 1rem;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    border: none;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    cursor: pointer;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
 }
 
-footer p {
-    margin: 0.5rem 0;
+.share-button {
+    bottom: 180px; /* Ajusta la posición para que esté arriba del botón de correo */
 }
 
-.legal-text {
-    font-size: 0.9rem;
-    margin-top: 1rem;
-    padding: 0 1rem;
+.email-button {
+    bottom: 100px; /* Ajusta la posición para que esté arriba del botón de premium */
 }
 
-/* Media Queries */
-@media (max-width: 768px) {
-    .feature {
-        display: block;
-        width: 80%;
-        margin: 2rem auto;
-    }
-
-    #hero h2 {
-        font-size: 2rem;
-    }
-
-    #hero p {
-        font-size: 1rem;
-    }
-
-    #features h2, #download h2, #contact h2 {
-        font-size: 1.5rem;
-    }
-
-    #download p, #contact p {
-        font-size: 1rem;
-    }
+.premium-button {
+    bottom: 20px; /* Ajusta la posición para que esté abajo de los otros botones */
+    background: #ff9800;
 }
 
-@media (max-width: 480px) {
-    header nav a {
-        display: block;
-        margin: 0.5rem 0;
-    }
+.share-button:hover, .email-button:hover, .premium-button:hover {
+    background: #45a049;
+    transform: scale(1.05);
+    transition: transform 0.2s ease;
+}
 
-    #hero h2 {
-        font-size: 1.5rem;
-    }
+.share-button svg, .email-button svg, .premium-button svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+}
 
-    #hero p {
-        font-size: 0.9rem;
-    }
+.dark-mode .share-button, .dark-mode .email-button, .dark-mode .premium-button {
+    background: #66bb6a;
+}
 
-    #hero .btn {
-        padding: 0.8rem 1.5rem;
-    }
+.dark-mode .premium-button {
+    background: #ffa726;
+}
 
-    .feature {
-        width: 90%;
-    }
+.image-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
 
-    #features h2, #download h2, #contact h2 {
-        font-size: 1.3rem;
-    }
+.enlarged-image {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 10px;
+}
 
-    #download p, #contact p {
-        font-size: 0.9rem;
+@media (max-width: 600px) {
+    .person-card {
+        margin: 10px;
+    }
+    
+    .header {
+        padding: 15px;
+        margin-bottom: 20px;
     }
 }
