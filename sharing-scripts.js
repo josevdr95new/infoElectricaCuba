@@ -1,6 +1,6 @@
 // sharing-scripts.js
 document.getElementById('share-whatsapp-button').addEventListener('click', () => {
-    const text = encodeURIComponent('Visita Info Eléctrica Cuba en https://www.apklis.cu/application/appinventor.ai_josevdr95.info_ElectricaCuba');
+    const text = encodeURIComponent('Visita Personas que Cambiaron la Humanidad en https://www.apklis.cu/applications?search=Personas%20que%20Cambiaron%20la%20Humanidad');
     const whatsappIntentUrl = `intent://send?text=${text}#Intent;scheme=whatsapp;package=com.whatsapp;end`;
     window.location.href = whatsappIntentUrl;
 });
