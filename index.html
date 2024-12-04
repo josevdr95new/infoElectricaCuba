@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>InfoIP Explorer</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.polyfill.io/v3/polyfill.min.js?features=Intl.DateTimeFormat"></script>
 </head>
 <body>
     <div class="container">
@@ -32,6 +33,15 @@
                 <span>✉️</span>
                 <span>Contactar</span>
             </button>
+            <button id="speed-test-button" class="btn btn-speed">
+                <span>🚀</span>
+                <span>Test de Velocidad</span>
+            </button>
+        </div>
+
+        <div class="search-container">
+            <input type="text" id="ip-input" placeholder="Ingrese una dirección IP">
+            <button class="btn btn-search" onclick="searchIp()">Buscar IP</button>
         </div>
 
         <div id="current-time"></div>
@@ -44,7 +54,8 @@
         <div class="disclaimer">
             <h3>Aviso Legal</h3>
             <p>Esta aplicación recolecta información pública de su dirección IP. No almacenamos ningún dato personal. 
-            La información mostrada es proporcionada por APIs y su precisión no está garantizada.</p>
+            La información mostrada es proporcionada por APIs y su precisión no está garantizada. Si las APIs dejan de funcionar, 
+            no nos hacemos responsables y no se ofrece reembolso del dinero.</p>
         </div>
 
         <div class="credits">
@@ -56,6 +67,7 @@
 
     <div id="tooltip" class="tooltip"></div>
     <div class="scroll-top" onclick="scrollToTop()">↑</div>
+    <div id="notifications"></div>
 
     <script src="sharing-scripts.js"></script>
     <script src="main-scripts.js"></script>
