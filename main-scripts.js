@@ -61,18 +61,6 @@ function showLocation() {
     `;
 }
 
-function toggleTime() {
-    const timeDiv = document.getElementById('current-time');
-    if (timeDiv.style.display === 'none' || timeDiv.style.display === '') {
-        timeDiv.style.display = 'block';
-        updateTime();
-        timeInterval = setInterval(updateTime, 1000);
-    } else {
-        timeDiv.style.display = 'none';
-        if (timeInterval) clearInterval(timeInterval);
-    }
-}
-
 function updateTime() {
     if (!ipData || !ipData.timeZone) {
         const timeDiv = document.getElementById('current-time');
@@ -119,16 +107,12 @@ async function refreshData() {
     ipData = await fetchIpInfo();
     displayIpInfo(ipData);
     showLocation(); // Actualizar el mapa
+    updateTime(); // Actualizar la hora local
 }
 
 function showLocationAndScroll() {
     showLocation();
     scrollToElement('map-container');
-}
-
-function toggleTimeAndScroll() {
-    toggleTime();
-    scrollToElement('current-time');
 }
 
 function checkNetworkStatus() {
@@ -216,6 +200,7 @@ async function searchIp() {
         ipData = await fetchIpInfo(ipInput);
         displayIpInfo(ipData);
         showLocation(); // Actualizar el mapa
+        updateTime(); // Actualizar la hora local
         
         if (ipData) {
             showNotification('success', 'Información de IP cargada con éxito.');
