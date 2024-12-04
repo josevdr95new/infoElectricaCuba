@@ -1,10 +1,27 @@
 let ipData = null;
 let timeInterval = null;
-let latencyInterval = null;
 
-async function fetchIpInfo(ip = '') {
+const descriptions = {
+    'ip': 'Dirección IP única que identifica tu dispositivo en Internet',
+    'country_name': 'País donde se encuentra tu conexión actual',
+    'city': 'Ciudad desde donde te estás conectando',
+    'region': 'Región o estado dentro del país',
+    'continent_code': 'Código del continente donde te encuentras',
+    'org': 'Proveedor de servicios de Internet (ISP)',
+    'latitude': 'Coordenada geográfica que indica la posición norte-sur',
+    'longitude': 'Coordenada geográfica que indica la posición este-oeste',
+    'timezone': 'Zona horaria de tu ubicación actual',
+    'asn': 'Número de Sistema Autónomo, identifica la red de tu proveedor',
+    'postal': 'Código postal aproximado de tu ubicación',
+    'country_calling_code': 'Código telefónico internacional de tu país',
+    'currency_name': 'Nombre de la moneda oficial en tu ubicación',
+    'currency': 'Código de la moneda utilizada en tu país',
+    'languages': 'Idiomas oficiales hablados en tu ubicación'
+};
+
+async function fetchIpInfo() {
     try {
-        const response = await fetch(`https://freeipapi.com/api/json/${ip}`);
+        const response = await fetch('https://ipapi.co/json/');
         const data = await response.json();
         return data;
     } catch (error) {
@@ -13,28 +30,45 @@ async function fetchIpInfo(ip = '') {
     }
 }
 
+function showTooltip(event, key) {
+    const tooltip = document.getElementById('tooltip');
+    tooltip.innerHTML = descriptions[key] || 'Información no disponible';
+    tooltip.style.display = 'block';
+    tooltip.style.left = (event.pageX + 10) + 'px';
+    tooltip.style.top = (event.pageY + 10) + 'px';
+}
+
+function hideTooltip() {
+    document.getElementById('tooltip').style.display = 'none';
+}
+
 function displayIpInfo(data) {
     const ipInfoDiv = document.getElementById('ip-info');
     if (!data) {
-        ipInfoDiv.innerHTML = `<p style="color: red">Error al cargar los datos. Por favor, intente nuevamente.</p>`;
+        ipInfoDiv.innerHTML = `
+            <p style="color: red">Error al cargar los datos. Por favor, intente nuevamente.</p>
+        `;
         return;
     }
 
     ipInfoDiv.innerHTML = `
         <h2>Datos de su conexión:</h2>
         <div class="info-grid">
-            <div class="info-item" onclick="copyToClipboard(this)">📍 IP: ${data.ipAddress}</div>
-            <div class="info-item" onclick="copyToClipboard(this)">🌍 País: ${data.countryName} (${data.countryCode})</div>
-            <div class="info-item" onclick="copyToClipboard(this)">🏢 Ciudad: ${data.cityName}</div>
-            <div class="info-item" onclick="copyToClipboard(this)">🌐 Región: ${data.regionName}</div>
-            <div class="info-item" onclick="copyToClipboard(this)">🌍 Continente: ${data.continentCode}</div>
-            <div class="info-item" onclick="copyToClipboard(this)">📍 Latitud: ${data.latitude}</div>
-            <div class="info-item" onclick="copyToClipboard(this)">📍 Longitud: ${data.longitude}</div>
-            <div class="info-item" onclick="copyToClipboard(this)">⏰ Zona Horaria: ${data.timeZone}</div>
-            <div class="info-item" onclick="copyToClipboard(this)">🔒 Código Postal: ${data.zipCode}</div>
-            <div class="info-item" onclick="copyToClipboard(this)">📱 Código País: ${data.countryCode}</div>
-            <div class="info-item" onclick="copyToClipboard(this)">💱 Código Moneda: ${data.currency.code}</div>
-            <div class="info-item" onclick="copyToClipboard(this)">🌐 Idiomas: ${data.language}</div>
+            <div class="info-item" onclick="showTooltip(event, 'ip')">📍 IP: ${data.ip}</div>
+            <div class="info-item" onclick="showTooltip(event, 'country_name')">🌍 País: ${data.country_name} (${data.country})</div>
+            <div class="info-item" onclick="showTooltip(event, 'city')">🏢 Ciudad: ${data.city}</div>
+            <div class="info-item" onclick="showTooltip(event, 'region')">🌐 Región: ${data.region}</div>
+            <div class="info-item" onclick="showTooltip(event, 'continent_code')">🌍 Continente: ${data.continent_code}</div>
+            <div class="info-item" onclick="showTooltip(event, 'org')">🏢 Organización: ${data.org}</div>
+            <div class="info-item" onclick="showTooltip(event, 'latitude')">📍 Latitud: ${data.latitude}</div>
+            <div class="info-item" onclick="showTooltip(event, 'longitude')">📍 Longitud: ${data.longitude}</div>
+            <div class="info-item" onclick="showTooltip(event, 'timezone')">⏰ Zona Horaria: ${data.timezone}</div>
+            <div class="info-item" onclick="showTooltip(event, 'asn')">🌐 ASN: ${data.asn}</div>
+            <div class="info-item" onclick="showTooltip(event, 'postal')">🔒 Código Postal: ${data.postal}</div>
+            <div class="info-item" onclick="showTooltip(event, 'country_calling_code')">📱 Código País: ${data.country_calling_code}</div>
+            <div class="info-item" onclick="showTooltip(event, 'currency_name')">💰 Moneda: ${data.currency_name}</div>
+            <div class="info-item" onclick="showTooltip(event, 'currency')">💱 Código Moneda: ${data.currency}</div>
+            <div class="info-item" onclick="showTooltip(event, 'languages')">🌐 Idiomas: ${data.languages}</div>
         </div>
     `;
     
@@ -47,6 +81,7 @@ function showLocation() {
     const mapContainer = document.getElementById('map-container');
     mapContainer.style.display = 'block';
     
+    // Using OpenStreetMap embed
     mapContainer.innerHTML = `
         <iframe
             width="100%"
@@ -56,7 +91,6 @@ function showLocation() {
             marginheight="0"
             marginwidth="0"
             src="https://www.openstreetmap.org/export/embed.html?bbox=${ipData.longitude-0.1},${ipData.latitude-0.1},${ipData.longitude+0.1},${ipData.latitude+0.1}&layer=mapnik&marker=${ipData.latitude},${ipData.longitude}"
-            loading="lazy"
         ></iframe>
     `;
 }
@@ -74,18 +108,17 @@ function toggleTime() {
 }
 
 function updateTime() {
-    if (!ipData || !ipData.timeZone) return;
+    if (!ipData || !ipData.timezone) return;
     
-    const now = new Date();
-    const formatter = new Intl.DateTimeFormat('es-ES', {
-        timeZone: ipData.timeZone,
+    const now = new Date().toLocaleString('es-ES', {
+        timeZone: ipData.timezone,
         dateStyle: 'full',
         timeStyle: 'long'
     });
     
     document.getElementById('current-time').innerHTML = `
-        <strong>Hora local en ${ipData.cityName}:</strong><br>
-        ${formatter.format(now)}
+        <strong>Hora local en ${ipData.city}:</strong><br>
+        ${now}
     `;
 }
 
@@ -110,7 +143,6 @@ async function refreshData() {
     
     ipData = await fetchIpInfo();
     displayIpInfo(ipData);
-    showLocation(); // Actualizar el mapa
 }
 
 function showLocationAndScroll() {
@@ -131,47 +163,12 @@ function checkNetworkStatus() {
                 🟢 Conectado a Internet
             </div>
         `;
-        startLatencyCheck();
     } else {
         networkStatus.innerHTML = `
             <div class="status-indicator offline">
                 🔴 Sin conexión a Internet
             </div>
         `;
-        stopLatencyCheck();
-    }
-}
-
-function startLatencyCheck() {
-    if (latencyInterval) return;
-    
-    latencyInterval = setInterval(() => {
-        const start = Date.now();
-        fetch('https://www.google.com', { method: 'HEAD', mode: 'no-cors' })
-            .then(() => {
-                const latency = Date.now() - start;
-                const networkStatus = document.getElementById('network-status');
-                networkStatus.innerHTML = `
-                    <div class="status-indicator online">
-                        🟢 Conectado a Internet (Latencia: ${latency} ms)
-                    </div>
-                `;
-            })
-            .catch(() => {
-                const networkStatus = document.getElementById('network-status');
-                networkStatus.innerHTML = `
-                    <div class="status-indicator offline">
-                        🔴 Sin conexión a Internet
-                    </div>
-                `;
-            });
-    }, 5000); // Verificar cada 5 segundos
-}
-
-function stopLatencyCheck() {
-    if (latencyInterval) {
-        clearInterval(latencyInterval);
-        latencyInterval = null;
     }
 }
 
@@ -197,59 +194,3 @@ window.addEventListener('offline', checkNetworkStatus);
 
 // Cargar datos al iniciar
 window.onload = refreshData;
-
-// Función para buscar una IP específica
-async function searchIp() {
-    const ipInput = document.getElementById('ip-input').value.trim();
-    if (ipInput) {
-        const ipInfoDiv = document.getElementById('ip-info');
-        ipInfoDiv.innerHTML = '<div class="loader"></div><p>Cargando información...</p>';
-        
-        ipData = await fetchIpInfo(ipInput);
-        displayIpInfo(ipData);
-        showLocation(); // Actualizar el mapa
-        
-        if (ipData) {
-            showNotification('success', 'Información de IP cargada con éxito.');
-        } else {
-            showNotification('error', 'Error al cargar la información de IP.');
-        }
-    } else {
-        showNotification('error', 'Por favor, ingrese una dirección IP válida.');
-    }
-}
-
-// Función para mostrar notificaciones
-function showNotification(type, message) {
-    const notifications = document.getElementById('notifications');
-    notifications.innerHTML = ''; // Limpiar notificaciones anteriores
-    const notification = document.createElement('div');
-    notification.className = `notification ${type}`;
-    notification.textContent = message;
-    notifications.appendChild(notification);
-    
-    setTimeout(() => {
-        notification.remove();
-    }, 5000);
-}
-
-// Función para realizar un test de velocidad y latencia
-function performSpeedTest() {
-    const speedTestUrl = 'https://fast.com/';
-    const intentUrl = `intent://${speedTestUrl.replace(/^https?:\/\//, '')}#Intent;scheme=https;package=com.android.chrome;end`;
-    window.location.href = intentUrl;
-}
-
-// Añadir evento al botón de test de velocidad
-document.getElementById('speed-test-button').addEventListener('click', performSpeedTest);
-
-// Función para copiar al portapapeles y notificar al usuario
-function copyToClipboard(element) {
-    const text = element.textContent.trim();
-    navigator.clipboard.writeText(text).then(() => {
-        showNotification('success', 'Copiado al portapapeles: ' + text);
-    }).catch((error) => {
-        console.error('Error al copiar al portapapeles:', error);
-        showNotification('error', 'Error al copiar al portapapeles.');
-    });
-}
