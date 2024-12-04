@@ -3,62 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personas que Cambiaron la Humanidad: Edición Premium</title>
+    <title>InfoIP Explorer</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.polyfill.io/v3/polyfill.min.js?features=Intl.DateTimeFormat"></script>
 </head>
 <body>
-<div class="container">
-    <div class="header">
-        <h1>Personas que Cambiaron la Humanidad</h1>
-        <p>Descubrimientos e Inventos que Transformaron el Mundo</p>
-    </div>
-<!--
-    <div class="settings-panel">
-        <button class="theme-toggle" id="themeToggle">Cambiar Modo Día/Noche</button>
-        <div class="font-size-controls">
-            <button class="font-button" onclick="changeFontSize('decrease')">A-</button>
-            <button class="font-button" onclick="changeFontSize('increase')">A+</button>
+    <div class="container">
+        <h1>InfoIP Explorer</h1>
+        <div id="network-status" style="margin: 15px 0; text-align: center;"></div>
+        
+        <div class="button-container">
+            <button class="btn btn-refresh" onclick="refreshDataAndScroll()">
+                <span>🔄</span>
+                <span>Actualizar</span>
+            </button>
+            <button class="btn btn-map" onclick="showLocationAndScroll()">
+                <span>🗺️</span>
+                <span>Ver en Mapa</span>
+            </button>
+            <button class="btn btn-time" onclick="toggleTimeAndScroll()">
+                <span>⏰</span>
+                <span>Hora Local</span>
+            </button>
+            <button id="share-whatsapp-button" class="btn btn-share">
+                <span>📤</span>
+                <span>Compartir</span>
+            </button>
+            <button id="send-email-button" class="btn btn-email">
+                <span>✉️</span>
+                <span>Contactar</span>
+            </button>
+            <button id="speed-test-button" class="btn btn-speed">
+                <span>🚀</span>
+                <span>Test de Velocidad</span>
+            </button>
+        </div>
+
+        <div class="search-container">
+            <input type="text" id="ip-input" placeholder="Ingrese una dirección IP">
+            <button class="btn btn-search" onclick="searchIp()">Buscar IP</button>
+        </div>
+
+        <div id="current-time"></div>
+        <div id="map-container"></div>
+        <div id="ip-info">
+            <div class="loader"></div>
+            <p>Cargando información...</p>
+        </div>
+
+        <div class="disclaimer">
+            <h3>Aviso Legal</h3>
+            <p>Esta aplicación recolecta información pública de su dirección IP. No almacenamos ningún dato personal. 
+            La información mostrada es proporcionada por APIs y su precisión no está garantizada. Si las APIs dejan de funcionar, 
+            no nos hacemos responsables y no se ofrece reembolso del dinero.</p>
+        </div>
+
+        <div class="credits">
+            <h3>Créditos</h3>
+            <p>Desarrollado por josevdr95</p>
+            <p>Versión 1.0 - 2024</p>
         </div>
     </div>
--->
-    <input type="text" class="search-box" placeholder="Buscar personaje histórico..." id="searchInput">
 
-    <div class="category-buttons" id="categoryButtons"></div>
+    <div id="tooltip" class="tooltip"></div>
+    <div class="scroll-top" onclick="scrollToTop()">↑</div>
+    <div id="notifications"></div>
 
-    <div class="person-grid" id="personGrid">
-        <!-- Las tarjetas se generarán dinámicamente con JavaScript -->
-    </div>
-
-    <div class="disclaimer">
-        <p><strong>Descargo de Responsabilidad:</strong> Esta aplicación tiene fines educativos e informativos. La información presentada ha sido recopilada de fuentes públicas y puede estar sujeta a actualizaciones. No nos hacemos responsables por cualquier error u omisión en el contenido.</p>
-    </div>
-
-    <div class="credits">
-        <p>© 2024 josevdr95 v1.0</p>
-        <p id="characterCount">Cantidad de personajes: <span id="count">0</span></p>
-    </div>
-
-    <!-- New WhatsApp share button -->
-    <button class="share-button" id="share-whatsapp-button" title="Compartir por WhatsApp" aria-label="Compartir por WhatsApp">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92c0-1.61-1.31-2.92-2.92-2.92zM18 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM6 13c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm12 7.02c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/>
-        </svg>
-    </button>
-
-    <!-- New email button -->
-    <button class="email-button" id="send-email-button" title="Enviar Correo Electrónico" aria-label="Enviar Correo Electrónico">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
-        </svg>
-    </button>
-</div>
-
-<audio id="backgroundAudio" loop>
-    <source src="background-music.mp3" type="audio/mpeg">
-    Tu navegador no soporta el elemento de audio.
-</audio>
-
-<script src="script.js"></script>
-<script src="sharing-scripts.js"></script>
+    <script src="sharing-scripts.js"></script>
+    <script src="main-scripts.js"></script>
 </body>
 </html>
