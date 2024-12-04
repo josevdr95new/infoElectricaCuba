@@ -80,7 +80,7 @@ body {
     padding: 10px;
     background: rgba(255, 0, 0, 0.1);
     border-radius: 6px;
-	text-align: center;
+    text-align: center;
 }
 
 .loading {
@@ -314,4 +314,31 @@ html {
 
 .notification.success {
     background: rgba(76, 175, 80, 0.8);
+}
+
+/* Credits section enhancements */
+.credits {
+    background: linear-gradient(to right, #1e3c72, #336699);
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+    color: white;
+    font-size: 0.9em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.credits h3 {
+    margin-top: 0;
+    font-size: 1.1em;
+    color: #fff;
+}
+
+.credits p {
+    margin: 0;
+    font-size: 0.9em;
 }

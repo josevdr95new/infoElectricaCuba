@@ -74,7 +74,11 @@ function toggleTime() {
 }
 
 function updateTime() {
-    if (!ipData || !ipData.timeZone) return;
+    if (!ipData || !ipData.timeZone) {
+        const timeDiv = document.getElementById('current-time');
+        timeDiv.innerHTML = '<p>Zona horaria no disponible.</p>';
+        return;
+    }
     
     const now = new Date();
     const formatter = new Intl.DateTimeFormat('es-ES', {
