@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InfoIP Explorer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>InfoIP Explorer</h1>
+        <div id="network-status" style="margin: 15px 0; text-align: center;"></div>
+        
+        <div class="button-container">
+            <button class="btn btn-refresh" onclick="refreshDataAndScroll()">
+                <span>🔄</span>
+                <span>Actualizar</span>
+            </button>
+            <button class="btn btn-map" onclick="showLocationAndScroll()">
+                <span>🗺️</span>
+                <span>Ver en Mapa</span>
+            </button>
+            <button class="btn btn-time" onclick="toggleTimeAndScroll()">
+                <span>⏰</span>
+                <span>Hora Local</span>
+            </button>
+            <button id="share-whatsapp-button" class="btn btn-share">
+                <span>📤</span>
+                <span>Compartir</span>
+            </button>
+            <button id="send-email-button" class="btn btn-email">
+                <span>✉️</span>
+                <span>Contactar</span>
+            </button>
+        </div>
+
+        <div id="current-time"></div>
+        <div id="map-container"></div>
+        <div id="ip-info">
+            <div class="loader"></div>
+            <p>Cargando información...</p>
+        </div>
+
+        <div class="disclaimer">
+            <h3>Aviso Legal</h3>
+            <p>Esta aplicación recolecta información pública de su dirección IP. No almacenamos ningún dato personal. 
+            La información mostrada es proporcionada por APIs y su precisión no está garantizada.</p>
+        </div>
+
+        <div class="credits">
+            <h3>Créditos</h3>
+            <p>Desarrollado por josevdr95</p>
+            <p>Versión 1.0 - 2024</p>
+        </div>
+    </div>
+
+    <div id="tooltip" class="tooltip"></div>
+    <div class="scroll-top" onclick="scrollToTop()">↑</div>
+
+    <script src="sharing-scripts.js"></script>
+    <script src="main-scripts.js"></script>
+</body>
+</html>
