@@ -39,6 +39,7 @@ function displayIpInfo(data) {
     `;
     
     checkNetworkStatus();
+    updateTime(); // Llamar a updateTime para mostrar la hora local
 }
 
 function showLocation() {
@@ -61,43 +62,6 @@ function showLocation() {
     `;
 }
 
-function calculateTimezoneOffset() {
-    const now = new Date();
-    const localHours = now.getHours();
-    const localMinutes = now.getMinutes();
-    const utcHours = now.getUTCHours();
-    const utcMinutes = now.getUTCMinutes();
-
-    const offsetMinutes = (localHours - utcHours) * 60 + (localMinutes - utcMinutes);
-    const offsetHours = Math.floor(offsetMinutes / 60);
-    const minutes = offsetMinutes % 60;
-
-    const sign = offsetHours >= 0 ? '+' : '-';
-    const timezoneOffset = `${sign}${Math.abs(offsetHours).toString().padStart(2, '0')}:${Math.abs(minutes).toString().padStart(2, '0')}`;
-
-    return timezoneOffset;
-}
-
-function updateTime() {
-    if (!ipData || !ipData.timeZone) {
-        const timeDiv = document.getElementById('current-time');
-        timeDiv.innerHTML = '<p>Zona horaria no disponible.</p>';
-        return;
-    }
-
-    const now = new Date();
-    const timezoneOffset = calculateTimezoneOffset();
-
-    const timeDiv = document.getElementById('current-time');
-    if (timeDiv) {
-        timeDiv.style.display = 'block';
-        timeDiv.innerHTML = `
-            <strong>Hora local en ${ipData.cityName}:</strong>
-            <span>${now.toLocaleString('es-ES', { timeZone: ipData.timeZone })} (UTC${timezoneOffset})</span>
-        `;
-    }
-}
-
 function toggleTime() {
     const timeDiv = document.getElementById('current-time');
     if (timeDiv.style.display === 'none' || timeDiv.style.display === '') {
@@ -107,6 +71,30 @@ function toggleTime() {
     } else {
         timeDiv.style.display = 'none';
         if (timeInterval) clearInterval(timeInterval);
+    }
+}
+
+function updateTime() {
+    if (!ipData || !ipData.timeZone) {
+        const timeDiv = document.getElementById('current-time');
+        timeDiv.innerHTML = '<p>Zona horaria no disponible.</p>';
+        return;
+    }
+    
+    const now = new Date();
+    const formatter = new Intl.DateTimeFormat('es-ES', {
+        timeZone: ipData.timeZones[0], // Usar la primera zona horaria de la lista
+        dateStyle: 'full',
+        timeStyle: 'long'
+    });
+    
+    const timeDiv = document.getElementById('current-time');
+    if (timeDiv) {
+        timeDiv.style.display = 'block';
+        timeDiv.innerHTML = `
+            <strong>Hora local en ${ipData.cityName}:</strong>
+            <span>${formatter.format(now)}</span>
+        `;
     }
 }
 
@@ -132,7 +120,6 @@ async function refreshData() {
     ipData = await fetchIpInfo();
     displayIpInfo(ipData);
     showLocation(); // Actualizar el mapa
-    updateTime(); // Actualizar la hora local
 }
 
 function showLocationAndScroll() {
@@ -230,8 +217,7 @@ async function searchIp() {
         ipData = await fetchIpInfo(ipInput);
         displayIpInfo(ipData);
         showLocation(); // Actualizar el mapa
-        updateTime(); // Actualizar la hora local
-
+        
         if (ipData) {
             showNotification('success', 'Información de IP cargada con éxito.');
         } else {
