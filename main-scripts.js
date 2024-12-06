@@ -1,63 +1,16 @@
-﻿let ipData = null;
+let ipData = null;
 let timeInterval = null;
 let latencyInterval = null;
 
-function fetchIpInfo(ip = '') {
-    return new Promise((resolve, reject) => {
-        const freeIpApiUrl = `https://freeipapi.com/api/json/${ip}`;
-        const ipApiUrl = `http://ip-api.com/json/${ip}`;
-
-        const freeIpApiRequest = new XMLHttpRequest();
-        freeIpApiRequest.open('GET', freeIpApiUrl, true);
-        freeIpApiRequest.onload = function() {
-            if (freeIpApiRequest.status >= 200 && freeIpApiRequest.status < 300) {
-                const freeIpApiData = JSON.parse(freeIpApiRequest.responseText);
-                const ipApiRequest = new XMLHttpRequest();
-                ipApiRequest.open('GET', ipApiUrl, true);
-                ipApiRequest.onload = function() {
-                    if (ipApiRequest.status >= 200 && ipApiRequest.status < 300) {
-                        const ipApiData = JSON.parse(ipApiRequest.responseText);
-                        if (ipApiData.status === 'success') {
-                            resolve({
-                                ipAddress: ipApiData.query,
-                                latitude: ipApiData.lat,
-                                longitude: ipApiData.lon,
-                                cityName: ipApiData.city,
-                                regionName: ipApiData.regionName,
-                                countryName: ipApiData.country,
-                                countryCode: ipApiData.countryCode,
-                                continentCode: freeIpApiData.continentCode,
-                                zipCode: ipApiData.zip,
-                                timeZone: ipApiData.timezone,
-                                timeZones: [ipApiData.timezone],
-                                currency: freeIpApiData.currency,
-                                language: freeIpApiData.language,
-                                tlds: freeIpApiData.tlds,
-                                isProxy: freeIpApiData.isProxy,
-                                isp: ipApiData.isp,
-                                org: ipApiData.org,
-                                as: ipApiData.as
-                            });
-                        } else {
-                            reject('Error: ' + ipApiData.message);
-                        }
-                    } else {
-                        reject('Error: ' + ipApiRequest.statusText);
-                    }
-                };
-                ipApiRequest.onerror = function() {
-                    reject('Error: ' + ipApiRequest.statusText);
-                };
-                ipApiRequest.send();
-            } else {
-                reject('Error: ' + freeIpApiRequest.statusText);
-            }
-        };
-        freeIpApiRequest.onerror = function() {
-            reject('Error: ' + freeIpApiRequest.statusText);
-        };
-        freeIpApiRequest.send();
-    });
+async function fetchIpInfo(ip = '') {
+    try {
+        const response = await fetch(`https://freeipapi.com/api/json/${ip}`);
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error:', error);
+        return null;
+    }
 }
 
 function displayIpInfo(data) {
@@ -79,42 +32,40 @@ function displayIpInfo(data) {
         <div class="info-grid">
             <div class="info-category">
                 <h3>Ubicación Geográfica</h3>
-                <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-network-wired color-primary"></i> IP: ${data.ipAddress}</div>
-                <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-map-marker-alt color-secondary"></i> Latitud: ${data.latitude}</div>
-                <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-map-marker-alt color-secondary"></i> Longitud: ${data.longitude}</div>
-                <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-city"></i> Ciudad: ${data.cityName}</div>
-                <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-globe color-info"></i> Región: ${data.regionName}</div>
+                <div class="info-item" onclick="copyToClipboard(this)">📍 IP: ${data.ipAddress}</div>
+                <div class="info-item" onclick="copyToClipboard(this)">📍 Latitud: ${data.latitude}</div>
+                <div class="info-item" onclick="copyToClipboard(this)">📍 Longitud: ${data.longitude}</div>
+                <div class="info-item" onclick="copyToClipboard(this)">🏢 Ciudad: ${data.cityName}</div>
+                <div class="info-item" onclick="copyToClipboard(this)">🌐 Región: ${data.regionName}</div>
             </div>
             <div class="info-category">
                 <h3>Información del País</h3>
-                <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-flag color-danger"></i> País: ${data.countryName} (${data.countryCode})</div>
-                <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-globe-americas color-warning"></i> Continente: ${data.continentCode}</div>
-                <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-mail-bulk color-primary"></i> Código Postal: ${data.zipCode}</div>
-                <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-phone color-secondary"></i> Código País: ${data.countryCode}</div>
+                <div class="info-item" onclick="copyToClipboard(this)">🌍 País: ${data.countryName} (${data.countryCode})</div>
+                <div class="info-item" onclick="copyToClipboard(this)">🌍 Continente: ${data.continentCode}</div>
+                <div class="info-item" onclick="copyToClipboard(this)">🔒 Código Postal: ${data.zipCode}</div>
+                <div class="info-item" onclick="copyToClipboard(this)">📱 Código País: ${data.countryCode}</div>
             </div>
             <div class="info-category">
                 <h3>Zona Horaria</h3>
-                <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-clock"></i> Zona Horaria: ${data.timeZone}</div>
-                <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-calendar-day color-info"></i> Días transcurridos del año: ${daysPassed}</div>
-                <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-calendar-day color-info"></i> Días restantes para que finalice el año: ${daysRemaining}</div>
-                <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-calendar-week color-info"></i> Semanas transcurridas del año: ${weeksPassed}</div>
+                <div class="info-item" onclick="copyToClipboard(this)">⏰ Zona Horaria: ${data.timeZone}</div>
+                <div class="info-item" onclick="copyToClipboard(this)">🕒 Zonas Horarias: ${data.timeZones.join(', ')}</div>
             </div>
             <div class="info-category">
                 <h3>Moneda</h3>
-                <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-dollar-sign color-primary"></i> Código Moneda: ${data.currency.code}</div>
-                <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-money-bill-alt color-secondary"></i> Nombre Moneda: ${data.currency.name}</div>
+                <div class="info-item" onclick="copyToClipboard(this)">💱 Código Moneda: ${data.currency.code}</div>
+                <div class="info-item" onclick="copyToClipboard(this)">💱 Nombre Moneda: ${data.currency.name}</div>
             </div>
             <div class="info-category">
                 <h3>Idiomas y Dominios</h3>
-                <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-language"></i> Idiomas: ${data.language}</div>
-                <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-globe color-info"></i> TLDs: ${data.tlds.join(', ')}</div>
+                <div class="info-item" onclick="copyToClipboard(this)">🌐 Idiomas: ${data.language}</div>
+                <div class="info-item" onclick="copyToClipboard(this)">🌐 TLDs: ${data.tlds.join(', ')}</div>
             </div>
             <div class="info-category">
                 <h3>Otros</h3>
-                <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-shield-alt color-danger"></i> Proxy: ${data.isProxy ? 'Sí' : 'No'}</div>
-                <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-network-wired color-primary"></i> ISP: ${data.isp}</div>
-                <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-building color-secondary"></i> Organización: ${data.org}</div>
-                <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-server color-info"></i> AS: ${data.as}</div>
+                <div class="info-item" onclick="copyToClipboard(this)">🔒 Proxy: ${data.isProxy ? 'Sí' : 'No'}</div>
+                <div class="info-item" onclick="copyToClipboard(this)">📅 Días transcurridos del año: ${daysPassed}</div>
+                <div class="info-item" onclick="copyToClipboard(this)">📅 Días restantes para que finalice el año: ${daysRemaining}</div>
+                <div class="info-item" onclick="copyToClipboard(this)">📅 Semanas transcurridas del año: ${weeksPassed}</div>
             </div>
         </div>
     `;
@@ -194,18 +145,13 @@ function scrollToElement(elementId) {
     }
 }
 
-function refreshData() {
+async function refreshData() {
     const ipInfoDiv = document.getElementById('ip-info');
     ipInfoDiv.innerHTML = '<div class="loader"></div><p>Cargando información...</p>';
     
-    fetchIpInfo().then(data => {
-        ipData = data;
-        displayIpInfo(ipData);
-        showLocation(); // Actualizar el mapa
-    }).catch(error => {
-        console.error('Error:', error);
-        ipInfoDiv.innerHTML = `<p style="color: red">Error al cargar los datos. Por favor, intente nuevamente.</p>`;
-    });
+    ipData = await fetchIpInfo();
+    displayIpInfo(ipData);
+    showLocation(); // Actualizar el mapa
 }
 
 function showLocationAndScroll() {
@@ -223,14 +169,14 @@ function checkNetworkStatus() {
     if (navigator.onLine) {
         networkStatus.innerHTML = `
             <div class="status-indicator online">
-                <i class="fas fa-check-circle color-success"></i> Conectado a Internet
+                🟢 Conectado a Internet
             </div>
         `;
         startLatencyCheck();
     } else {
         networkStatus.innerHTML = `
             <div class="status-indicator offline">
-                <i class="fas fa-times-circle color-danger"></i> Sin conexión a Internet
+                🔴 Sin conexión a Internet
             </div>
         `;
         stopLatencyCheck();
@@ -242,26 +188,24 @@ function startLatencyCheck() {
     
     latencyInterval = setInterval(() => {
         const start = Date.now();
-        const xhr = new XMLHttpRequest();
-        xhr.open('HEAD', 'https://www.google.com', true);
-        xhr.onload = function() {
-            const latency = Date.now() - start;
-            const networkStatus = document.getElementById('network-status');
-            networkStatus.innerHTML = `
-                <div class="status-indicator online">
-                    <i class="fas fa-check-circle color-success"></i> Conectado a Internet (Latencia: ${latency} ms)
-                </div>
-            `;
-        };
-        xhr.onerror = function() {
-            const networkStatus = document.getElementById('network-status');
-            networkStatus.innerHTML = `
-                <div class="status-indicator offline">
-                    <i class="fas fa-times-circle color-danger"></i> Sin conexión a Internet
-                </div>
-            `;
-        };
-        xhr.send();
+        fetch('https://www.google.com', { method: 'HEAD', mode: 'no-cors' })
+            .then(() => {
+                const latency = Date.now() - start;
+                const networkStatus = document.getElementById('network-status');
+                networkStatus.innerHTML = `
+                    <div class="status-indicator online">
+                        🟢 Conectado a Internet (Latencia: ${latency} ms)
+                    </div>
+                `;
+            })
+            .catch(() => {
+                const networkStatus = document.getElementById('network-status');
+                networkStatus.innerHTML = `
+                    <div class="status-indicator offline">
+                        🔴 Sin conexión a Internet
+                    </div>
+                `;
+            });
     }, 5000); // Verificar cada 5 segundos
 }
 
@@ -296,27 +240,21 @@ window.addEventListener('offline', checkNetworkStatus);
 window.onload = refreshData;
 
 // Función para buscar una IP específica
-function searchIp() {
+async function searchIp() {
     const ipInput = document.getElementById('ip-input').value.trim();
     if (ipInput) {
         const ipInfoDiv = document.getElementById('ip-info');
         ipInfoDiv.innerHTML = '<div class="loader"></div><p>Cargando información...</p>';
         
-        fetchIpInfo(ipInput).then(data => {
-            ipData = data;
-            displayIpInfo(ipData);
-            showLocation(); // Actualizar el mapa
-            
-            if (ipData) {
-                showNotification('success', 'Información de IP cargada con éxito.');
-            } else {
-                showNotification('error', 'Error al cargar la información de IP.');
-            }
-        }).catch(error => {
-            console.error('Error:', error);
-            ipInfoDiv.innerHTML = `<p style="color: red">Error al cargar los datos. Por favor, intente nuevamente.</p>`;
+        ipData = await fetchIpInfo(ipInput);
+        displayIpInfo(ipData);
+        showLocation(); // Actualizar el mapa
+        
+        if (ipData) {
+            showNotification('success', 'Información de IP cargada con éxito.');
+        } else {
             showNotification('error', 'Error al cargar la información de IP.');
-        });
+        }
     } else {
         showNotification('error', 'Por favor, ingrese una dirección IP válida.');
     }

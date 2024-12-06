@@ -1,12 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>InfoIP Explorer</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- Enlace a Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="container">
@@ -14,28 +12,28 @@
         <div id="network-status" style="margin: 15px 0; text-align: center;"></div>
         
         <div class="button-container">
-            <button class="btn btn-update" onclick="refreshDataAndScroll()">
-                <span><i class="fas fa-sync-alt color-primary"></i></span>
+            <button class="btn btn-refresh" onclick="refreshDataAndScroll()">
+                <span>🔄</span>
                 <span>Actualizar</span>
             </button>
-            <button class="btn btn-view-map" onclick="showLocationAndScroll()">
-                <span><i class="fas fa-map-marked-alt color-secondary"></i></span>
+            <button class="btn btn-map" onclick="showLocationAndScroll()">
+                <span>🗺️</span>
                 <span>Ver en Mapa</span>
             </button>
             <button class="btn btn-time" onclick="toggleTimeAndScroll()">
-                <span><i class="fas fa-clock color-success"></i></span>
+                <span>⏰</span>
                 <span>Hora Local</span>
             </button>
             <button id="share-whatsapp-button" class="btn btn-share">
-                <span><i class="fas fa-share-alt color-danger"></i></span>
+                <span>📤</span>
                 <span>Compartir</span>
             </button>
             <button id="send-email-button" class="btn btn-email">
-                <span><i class="fas fa-envelope color-warning"></i></span>
+                <span>✉️</span>
                 <span>Contactar</span>
             </button>
             <button id="speed-test-button" class="btn btn-speed">
-                <span><i class="fas fa-rocket color-info"></i></span>
+                <span>🚀</span>
                 <span>Test de Velocidad</span>
             </button>
         </div>

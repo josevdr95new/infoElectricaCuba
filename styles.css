@@ -1,28 +1,22 @@
-/* General Styles */
 body {
     font-family: 'Segoe UI', sans-serif;
     margin: 0;
     padding: 10px;
-    background: #1e293b; /* New background color */
+    background: #1e3c72; /* Simplified background */
     color: white;
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
-
 
 .container {
     max-width: 800px;
-    width: 100%;
+    margin: 0 auto;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 10px;
     padding: 10px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-    margin-bottom: 20px;
+    width: calc(100% - 20px);
 }
 
-/* Button Container */
 .button-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -57,29 +51,13 @@ body {
     transform: translateY(1px);
 }
 
-/* Specific styles for buttons */
-.btn-update { background: #38a169; } /* Darker Green */
-.btn-view-map { background: #f25757; } /* Vibrant Red */
-.btn-time { background: #ffcc00; } /* Vibrant Yellow */
-.btn-share { background: #f472b6; } /* Vibrant Pink */
-.btn-email { background: #ff9f43; } /* Vibrant Orange */
-.btn-speed { background: #4b7bec; } /* Vibrant Blue */
+.btn-refresh { background: #2196F3; }
+.btn-share { background: #9C27B0; }
+.btn-email { background: #FF5722; }
+.btn-map { background: #FF9800; }
+.btn-time { background: #607D8B; }
+.btn-speed { background: #FFC107; }
 
-/* Icons */
-.fas {
-    font-size: 1.2em;
-    margin-right: 8px;
-}
-
-/* Match icon colors to button backgrounds */
-.btn-update .fas { color: white; }
-.btn-view-map .fas { color: white; }
-.btn-time .fas { color: white; }
-.btn-share .fas { color: white; }
-.btn-email .fas { color: white; }
-.btn-speed .fas { color: white; }
-
-/* Map Container */
 #map-container {
     height: 200px;
     margin: 10px 0;
@@ -88,13 +66,41 @@ body {
     display: none;
 }
 
-/* IP Info */
 #ip-info {
     margin: 15px 0;
     padding: 15px;
     background: rgba(255, 255, 255, 0.15);
     border-radius: 8px;
     line-height: 1.5;
+}
+
+.disclaimer, .credits {
+    font-size: 0.85em;
+    margin-top: 15px;
+    padding: 10px;
+    background: rgba(255, 0, 0, 0.1);
+    border-radius: 6px;
+    text-align: center;
+}
+
+.loading {
+    text-align: center;
+    padding: 15px;
+}
+
+.loader {
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top: 3px solid #ffffff;
+    width: 30px;
+    height: 30px;
+    animation: spin 1s linear infinite;
+    margin: 15px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 
 .info-grid {
@@ -137,47 +143,6 @@ body {
     background: rgba(255, 255, 255, 0.2);
 }
 
-/* Disclaimer and Credits */
-.disclaimer, .credits {
-    font-size: 0.85em;
-    margin-top: 15px;
-    padding: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 6px;
-    text-align: center;
-}
-
-.credits {
-    background: #1e293b;
-    padding: 15px;
-    border-radius: 8px;
-    text-align: center;
-    color: white;
-    font-size: 0.9em;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-}
-
-/* Loading and Tooltip */
-.loader {
-    border: 3px solid rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    border-top: 3px solid #ffffff;
-    width: 30px;
-    height: 30px;
-    animation: spin 1s linear infinite;
-    margin: 15px auto;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
 .tooltip {
     position: fixed;
     background: rgba(0, 0, 0, 0.9);
@@ -189,7 +154,6 @@ body {
     pointer-events: none;
 }
 
-/* Current Time */
 #current-time {
     background: rgba(255, 255, 255, 0.15);
     padding: 10px;
@@ -203,12 +167,11 @@ body {
     word-wrap: break-word;
 }
 
-/* Scroll Top Button */
 .scroll-top {
     position: fixed;
     bottom: 15px;
     right: 15px;
-    background: #38a169; /* Darker Green */
+    background: rgba(33, 150, 243, 0.8);
     color: white;
     width: 35px;
     height: 35px;
@@ -222,21 +185,86 @@ body {
 }
 
 .scroll-top:hover {
-    background: #2f855a; /* Darker Green on hover */
+    background: rgb(33, 150, 243);
     transform: translateY(-2px);
 }
 
-/* Search Container */
+/* Responsive typography */
+@media (max-width: 768px) {
+    body {
+        padding: 5px;
+    }
+    
+    h1 {
+        font-size: 1.4em;
+        text-align: center;
+    }
+    
+    h2 {
+        font-size: 1.2em;
+    }
+    
+    h3 {
+        font-size: 1em;
+    }
+    
+    .disclaimer, .credits {
+        font-size: 0.8em;
+    }
+    
+    #current-time {
+        font-size: 0.9em;
+        padding: 8px;
+        margin: 8px 0;
+    }
+    
+    #current-time strong {
+        display: block;
+        margin-bottom: 5px;
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+#network-status {
+    animation: fadeIn 0.3s ease-in;
+}
+
+#network-status .status-indicator {
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: background 0.2s ease;
+}
+
+#network-status .online {
+    background: rgba(76, 175, 80, 0.2);
+    border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+#network-status .offline {
+    background: rgba(244, 67, 54, 0.2);
+    border: 1px solid rgba(244, 67, 54, 0.3);
+}
+
+/* Improved search container */
 .search-container {
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 20px 0;
-    gap: 10px;
+    gap: 10px; /* Space between input and button */
 }
 
 #ip-input {
-    flex: 1;
+    flex: 1; /* Make the text field occupy all remaining space */
     padding: 12px;
     border: none;
     border-radius: 8px;
@@ -248,7 +276,7 @@ body {
 }
 
 #ip-input::placeholder {
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.5); /* Placeholder color */
 }
 
 #ip-input:focus {
@@ -256,7 +284,7 @@ body {
 }
 
 .btn-search {
-    background: #38a169; /* Darker Green */
+    background: #4CAF50;
     padding: 12px 16px;
     border: none;
     border-radius: 8px;
@@ -278,7 +306,7 @@ body {
     transform: translateY(1px);
 }
 
-/* Notification Styles */
+/* Notification styles */
 #notifications {
     position: fixed;
     top: 20px;
@@ -298,83 +326,36 @@ body {
 }
 
 .notification.error {
-    background: #f25757; /* Match view on map button color */
+    background: rgba(244, 67, 54, 0.8);
 }
 
 .notification.success {
-    background: #38a169; /* Darker Green */
+    background: rgba(76, 175, 80, 0.8);
 }
 
-/* Animation */
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
-/* Color Success for Icons */
-.color-success {
-    color: #38a169; /* Darker Green */
-}
-
-.color-error {
-    color: #f25757; /* Vibrant Red */
-}
-
-
-		
-h1 {
-    text-align: center; /* Centra el texto horizontalmente */
-    font-family: 'Arial', sans-serif;
-    color: #f9d835; /* Color del texto */
-    font-size: 3em; /* Tamaño del texto */
-    position: relative;
-    animation: float 3s ease-in-out infinite; /* Animación de flotación */
-    
-    /* Añadiendo borde y sombra */
-    border: 2px solid #f9d835; /* Borde del mismo color que el texto */
-    border-radius: 10px; /* Bordes redondeados */
-    padding: 10px; /* Espaciado interno */
-    
-    /* Sombra del texto */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Sombra del texto */
-    
-    /* Sombra del borde */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra alrededor del borde */
-	
-}
-
-@keyframes float {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-10px); /* Movimiento hacia arriba */
-    }
-}
-
-
-
-#network-status {
-    animation: fadeIn 0.3s ease-in;
-}
-
-#network-status .status-indicator {
-    padding: 10px;
+/* Credits section enhancements */
+.credits {
+    background: linear-gradient(to right, #1e3c72, #336699);
+    padding: 15px;
     border-radius: 8px;
-    font-weight: 500;
-    transition: all 0.2s ease;
+    text-align: center;
+    color: white;
+    font-size: 0.9em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
-#network-status .online {
-    background: rgba(76, 175, 80, 0.2);
-    border: 1px solid rgba(76, 175, 80, 0.3);
+.credits h3 {
+    margin-top: 0;
+    font-size: 1.1em;
+    color: #fff;
 }
 
-#network-status .offline {
-    background: rgba(244, 67, 54, 0.2);
-    border: 1px solid rgba(244, 67, 54, 0.3);
+.credits p {
+    margin: 0;
+    font-size: 0.9em;
 }
