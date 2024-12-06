@@ -13,6 +13,20 @@ async function fetchIpInfo(ip = '') {
     }
 }
 
+async function fetchTimeZoneAndTime(latitude, longitude) {
+    const apiKey = 'J51CL2CC6I45'; // Asegúrate de que esta clave sea válida
+    const apiUrl = `https://api.timezonedb.com/v2.1/get-time-zone?key=${apiKey}&format=json&by=position&lat=${latitude}&lng=${longitude}`;
+
+    try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Error:', error);
+        return null;
+    }
+}
+
 function displayIpInfo(data) {
     const ipInfoDiv = document.getElementById('ip-info');
     if (!data) {
@@ -20,53 +34,25 @@ function displayIpInfo(data) {
         return;
     }
 
-    const now = new Date();
-    const startOfYear = new Date(now.getFullYear(), 0, 1);
-    const endOfYear = new Date(now.getFullYear() + 1, 0, 1);
-    const daysPassed = Math.floor((now - startOfYear) / (1000 * 60 * 60 * 24));
-    const daysRemaining = Math.floor((endOfYear - now) / (1000 * 60 * 60 * 24));
-    const weeksPassed = Math.floor(daysPassed / 7);
-
     ipInfoDiv.innerHTML = `
         <h2>Datos de su conexión:</h2>
         <div class="info-grid">
-            <div class="info-category">
-                <h3>Ubicación Geográfica</h3>
-                <div class="info-item" onclick="copyToClipboard(this)">📍 IP: ${data.ipAddress}</div>
-                <div class="info-item" onclick="copyToClipboard(this)">📍 Latitud: ${data.latitude}</div>
-                <div class="info-item" onclick="copyToClipboard(this)">📍 Longitud: ${data.longitude}</div>
-                <div class="info-item" onclick="copyToClipboard(this)">🏢 Ciudad: ${data.cityName}</div>
-                <div class="info-item" onclick="copyToClipboard(this)">🌐 Región: ${data.regionName}</div>
-            </div>
-            <div class="info-category">
-                <h3>Información del País</h3>
-                <div class="info-item" onclick="copyToClipboard(this)">🌍 País: ${data.countryName} (${data.countryCode})</div>
-                <div class="info-item" onclick="copyToClipboard(this)">🌍 Continente: ${data.continentCode}</div>
-                <div class="info-item" onclick="copyToClipboard(this)">🔒 Código Postal: ${data.zipCode}</div>
-                <div class="info-item" onclick="copyToClipboard(this)">📱 Código País: ${data.countryCode}</div>
-            </div>
-            <div class="info-category">
-                <h3>Zona Horaria</h3>
-                <div class="info-item" onclick="copyToClipboard(this)">⏰ Zona Horaria: ${data.timeZone}</div>
-                <div class="info-item" onclick="copyToClipboard(this)">🕒 Zonas Horarias: ${data.timeZones.join(', ')}</div>
-            </div>
-            <div class="info-category">
-                <h3>Moneda</h3>
-                <div class="info-item" onclick="copyToClipboard(this)">💱 Código Moneda: ${data.currency.code}</div>
-                <div class="info-item" onclick="copyToClipboard(this)">💱 Nombre Moneda: ${data.currency.name}</div>
-            </div>
-            <div class="info-category">
-                <h3>Idiomas y Dominios</h3>
-                <div class="info-item" onclick="copyToClipboard(this)">🌐 Idiomas: ${data.language}</div>
-                <div class="info-item" onclick="copyToClipboard(this)">🌐 TLDs: ${data.tlds.join(', ')}</div>
-            </div>
-            <div class="info-category">
-                <h3>Otros</h3>
-                <div class="info-item" onclick="copyToClipboard(this)">🔒 Proxy: ${data.isProxy ? 'Sí' : 'No'}</div>
-                <div class="info-item" onclick="copyToClipboard(this)">📅 Días transcurridos del año: ${daysPassed}</div>
-                <div class="info-item" onclick="copyToClipboard(this)">📅 Días restantes para que finalice el año: ${daysRemaining}</div>
-                <div class="info-item" onclick="copyToClipboard(this)">📅 Semanas transcurridas del año: ${weeksPassed}</div>
-            </div>
+            <div class="info-item" onclick="copyToClipboard(this)">📍 IP: ${data.ipAddress}</div>
+            <div class="info-item" onclick="copyToClipboard(this)">🌍 País: ${data.countryName} (${data.countryCode})</div>
+            <div class="info-item" onclick="copyToClipboard(this)">🏢 Ciudad: ${data.cityName}</div>
+            <div class="info-item" onclick="copyToClipboard(this)">🌐 Región: ${data.regionName}</div>
+            <div class="info-item" onclick="copyToClipboard(this)">🌍 Continente: ${data.continentCode}</div>
+            <div class="info-item" onclick="copyToClipboard(this)">📍 Latitud: ${data.latitude}</div>
+            <div class="info-item" onclick="copyToClipboard(this)">📍 Longitud: ${data.longitude}</div>
+            <div class="info-item" onclick="copyToClipboard(this)">⏰ Zona Horaria: ${data.timeZone}</div>
+            <div class="info-item" onclick="copyToClipboard(this)">🔒 Código Postal: ${data.zipCode}</div>
+            <div class="info-item" onclick="copyToClipboard(this)">📱 Código País: ${data.countryCode}</div>
+            <div class="info-item" onclick="copyToClipboard(this)">💱 Código Moneda: ${data.currency.code}</div>
+            <div class="info-item" onclick="copyToClipboard(this)">💱 Nombre Moneda: ${data.currency.name}</div>
+            <div class="info-item" onclick="copyToClipboard(this)">🌐 Idiomas: ${data.language}</div>
+            <div class="info-item" onclick="copyToClipboard(this)">🕒 Zonas Horarias: ${data.timeZones.join(', ')}</div>
+            <div class="info-item" onclick="copyToClipboard(this)">🌐 TLDs: ${data.tlds.join(', ')}</div>
+            <div class="info-item" onclick="copyToClipboard(this)">🔒 Proxy: ${data.isProxy ? 'Sí' : 'No'}</div>
         </div>
     `;
     
@@ -106,26 +92,26 @@ function toggleTime() {
     }
 }
 
-function updateTime() {
-    if (!ipData || !ipData.timeZones || ipData.timeZones.length === 0) {
+async function updateTime() {
+    if (!ipData || !ipData.latitude || !ipData.longitude) {
         const timeDiv = document.getElementById('current-time');
         timeDiv.innerHTML = '<p>Zona horaria no disponible.</p>';
         return;
     }
     
-    const now = new Date();
-    const formatter = new Intl.DateTimeFormat('es-ES', {
-        timeZone: ipData.timeZones[0], // Usar la primera zona horaria de la lista
-        dateStyle: 'full',
-        timeStyle: 'long'
-    });
+    const timeZoneData = await fetchTimeZoneAndTime(ipData.latitude, ipData.longitude);
+    if (!timeZoneData || !timeZoneData.formatted) {
+        const timeDiv = document.getElementById('current-time');
+        timeDiv.innerHTML = '<p>Error al obtener la hora actual.</p>';
+        return;
+    }
     
     const timeDiv = document.getElementById('current-time');
     if (timeDiv) {
         timeDiv.style.display = 'block';
         timeDiv.innerHTML = `
             <strong>Hora local en ${ipData.cityName}:</strong>
-            <span>${formatter.format(now)}</span>
+            <span>${timeZoneData.formatted}</span>
         `;
     }
 }
