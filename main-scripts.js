@@ -2,45 +2,62 @@
 let timeInterval = null;
 let latencyInterval = null;
 
-async function fetchIpInfo(ip = '') {
-    try {
-        const [freeIpApiResponse, ipApiResponse] = await Promise.all([
-            fetch(`https://freeipapi.com/api/json/${ip}`),
-            fetch(`http://ip-api.com/json/${ip}`)
-        ]);
+function fetchIpInfo(ip = '') {
+    return new Promise((resolve, reject) => {
+        const freeIpApiUrl = `https://freeipapi.com/api/json/${ip}`;
+        const ipApiUrl = `http://ip-api.com/json/${ip}`;
 
-        const freeIpApiData = await freeIpApiResponse.json();
-        const ipApiData = await ipApiResponse.json();
-
-        if (ipApiData.status === 'success') {
-            return {
-                ipAddress: ipApiData.query,
-                latitude: ipApiData.lat,
-                longitude: ipApiData.lon,
-                cityName: ipApiData.city,
-                regionName: ipApiData.regionName,
-                countryName: ipApiData.country,
-                countryCode: ipApiData.countryCode,
-                continentCode: freeIpApiData.continentCode,
-                zipCode: ipApiData.zip,
-                timeZone: ipApiData.timezone,
-                timeZones: [ipApiData.timezone], // Aseguramos que solo haya una zona horaria
-                currency: freeIpApiData.currency,
-                language: freeIpApiData.language,
-                tlds: freeIpApiData.tlds,
-                isProxy: freeIpApiData.isProxy,
-                isp: ipApiData.isp,
-                org: ipApiData.org,
-                as: ipApiData.as
-            };
-        } else {
-            console.error('Error:', ipApiData.message);
-            return null;
-        }
-    } catch (error) {
-        console.error('Error:', error);
-        return null;
-    }
+        const freeIpApiRequest = new XMLHttpRequest();
+        freeIpApiRequest.open('GET', freeIpApiUrl, true);
+        freeIpApiRequest.onload = function() {
+            if (freeIpApiRequest.status >= 200 && freeIpApiRequest.status < 300) {
+                const freeIpApiData = JSON.parse(freeIpApiRequest.responseText);
+                const ipApiRequest = new XMLHttpRequest();
+                ipApiRequest.open('GET', ipApiUrl, true);
+                ipApiRequest.onload = function() {
+                    if (ipApiRequest.status >= 200 && ipApiRequest.status < 300) {
+                        const ipApiData = JSON.parse(ipApiRequest.responseText);
+                        if (ipApiData.status === 'success') {
+                            resolve({
+                                ipAddress: ipApiData.query,
+                                latitude: ipApiData.lat,
+                                longitude: ipApiData.lon,
+                                cityName: ipApiData.city,
+                                regionName: ipApiData.regionName,
+                                countryName: ipApiData.country,
+                                countryCode: ipApiData.countryCode,
+                                continentCode: freeIpApiData.continentCode,
+                                zipCode: ipApiData.zip,
+                                timeZone: ipApiData.timezone,
+                                timeZones: [ipApiData.timezone],
+                                currency: freeIpApiData.currency,
+                                language: freeIpApiData.language,
+                                tlds: freeIpApiData.tlds,
+                                isProxy: freeIpApiData.isProxy,
+                                isp: ipApiData.isp,
+                                org: ipApiData.org,
+                                as: ipApiData.as
+                            });
+                        } else {
+                            reject('Error: ' + ipApiData.message);
+                        }
+                    } else {
+                        reject('Error: ' + ipApiRequest.statusText);
+                    }
+                };
+                ipApiRequest.onerror = function() {
+                    reject('Error: ' + ipApiRequest.statusText);
+                };
+                ipApiRequest.send();
+            } else {
+                reject('Error: ' + freeIpApiRequest.statusText);
+            }
+        };
+        freeIpApiRequest.onerror = function() {
+            reject('Error: ' + freeIpApiRequest.statusText);
+        };
+        freeIpApiRequest.send();
+    });
 }
 
 function displayIpInfo(data) {
@@ -177,13 +194,18 @@ function scrollToElement(elementId) {
     }
 }
 
-async function refreshData() {
+function refreshData() {
     const ipInfoDiv = document.getElementById('ip-info');
     ipInfoDiv.innerHTML = '<div class="loader"></div><p>Cargando información...</p>';
     
-    ipData = await fetchIpInfo();
-    displayIpInfo(ipData);
-    showLocation(); // Actualizar el mapa
+    fetchIpInfo().then(data => {
+        ipData = data;
+        displayIpInfo(ipData);
+        showLocation(); // Actualizar el mapa
+    }).catch(error => {
+        console.error('Error:', error);
+        ipInfoDiv.innerHTML = `<p style="color: red">Error al cargar los datos. Por favor, intente nuevamente.</p>`;
+    });
 }
 
 function showLocationAndScroll() {
@@ -220,24 +242,26 @@ function startLatencyCheck() {
     
     latencyInterval = setInterval(() => {
         const start = Date.now();
-        fetch('https://www.google.com', { method: 'HEAD', mode: 'no-cors' })
-            .then(() => {
-                const latency = Date.now() - start;
-                const networkStatus = document.getElementById('network-status');
-                networkStatus.innerHTML = `
-                    <div class="status-indicator online">
-                        <i class="fas fa-check-circle color-success"></i> Conectado a Internet (Latencia: ${latency} ms)
-                    </div>
-                `;
-            })
-            .catch(() => {
-                const networkStatus = document.getElementById('network-status');
-                networkStatus.innerHTML = `
-                    <div class="status-indicator offline">
-                        <i class="fas fa-times-circle color-danger"></i> Sin conexión a Internet
-                    </div>
-                `;
-            });
+        const xhr = new XMLHttpRequest();
+        xhr.open('HEAD', 'https://www.google.com', true);
+        xhr.onload = function() {
+            const latency = Date.now() - start;
+            const networkStatus = document.getElementById('network-status');
+            networkStatus.innerHTML = `
+                <div class="status-indicator online">
+                    <i class="fas fa-check-circle color-success"></i> Conectado a Internet (Latencia: ${latency} ms)
+                </div>
+            `;
+        };
+        xhr.onerror = function() {
+            const networkStatus = document.getElementById('network-status');
+            networkStatus.innerHTML = `
+                <div class="status-indicator offline">
+                    <i class="fas fa-times-circle color-danger"></i> Sin conexión a Internet
+                </div>
+            `;
+        };
+        xhr.send();
     }, 5000); // Verificar cada 5 segundos
 }
 
@@ -272,21 +296,27 @@ window.addEventListener('offline', checkNetworkStatus);
 window.onload = refreshData;
 
 // Función para buscar una IP específica
-async function searchIp() {
+function searchIp() {
     const ipInput = document.getElementById('ip-input').value.trim();
     if (ipInput) {
         const ipInfoDiv = document.getElementById('ip-info');
         ipInfoDiv.innerHTML = '<div class="loader"></div><p>Cargando información...</p>';
         
-        ipData = await fetchIpInfo(ipInput);
-        displayIpInfo(ipData);
-        showLocation(); // Actualizar el mapa
-        
-        if (ipData) {
-            showNotification('success', 'Información de IP cargada con éxito.');
-        } else {
+        fetchIpInfo(ipInput).then(data => {
+            ipData = data;
+            displayIpInfo(ipData);
+            showLocation(); // Actualizar el mapa
+            
+            if (ipData) {
+                showNotification('success', 'Información de IP cargada con éxito.');
+            } else {
+                showNotification('error', 'Error al cargar la información de IP.');
+            }
+        }).catch(error => {
+            console.error('Error:', error);
+            ipInfoDiv.innerHTML = `<p style="color: red">Error al cargar los datos. Por favor, intente nuevamente.</p>`;
             showNotification('error', 'Error al cargar la información de IP.');
-        }
+        });
     } else {
         showNotification('error', 'Por favor, ingrese una dirección IP válida.');
     }
