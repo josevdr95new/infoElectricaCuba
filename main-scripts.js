@@ -37,35 +37,33 @@ function displayIpInfo(data) {
     ipInfoDiv.innerHTML = `
         <h2>Datos de su conexión:</h2>
         <div class="info-grid">
-            <div class="info-item" onclick="copyToClipboard(this)">📍 IP: ${data.ipAddress}</div>
-            <div class="info-item" onclick="copyToClipboard(this)">🌍 País: ${data.countryName} (${data.countryCode})</div>
-            <div class="info-item" onclick="copyToClipboard(this)">🏢 Ciudad: ${data.cityName}</div>
-            <div class="info-item" onclick="copyToClipboard(this)">🌐 Región: ${data.regionName}</div>
-            <div class="info-item" onclick="copyToClipboard(this)">🌍 Continente: ${data.continentCode}</div>
-            <div class="info-item" onclick="copyToClipboard(this)">📍 Latitud: ${data.latitude}</div>
-            <div class="info-item" onclick="copyToClipboard(this)">📍 Longitud: ${data.longitude}</div>
-            <div class="info-item" onclick="copyToClipboard(this)">⏰ Zona Horaria: ${data.timeZone}</div>
-            <div class="info-item" onclick="copyToClipboard(this)">🔒 Código Postal: ${data.zipCode}</div>
-            <div class="info-item" onclick="copyToClipboard(this)">📱 Código País: ${data.countryCode}</div>
-            <div class="info-item" onclick="copyToClipboard(this)">💱 Código Moneda: ${data.currency.code}</div>
-            <div class="info-item" onclick="copyToClipboard(this)">💱 Nombre Moneda: ${data.currency.name}</div>
-            <div class="info-item" onclick="copyToClipboard(this)">🌐 Idiomas: ${data.language}</div>
-            <div class="info-item" onclick="copyToClipboard(this)">🕒 Zonas Horarias: ${data.timeZones.join(', ')}</div>
-            <div class="info-item" onclick="copyToClipboard(this)">🌐 TLDs: ${data.tlds.join(', ')}</div>
-            <div class="info-item" onclick="copyToClipboard(this)">🔒 Proxy: ${data.isProxy ? 'Sí' : 'No'}</div>
+            <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-network-wired"></i> IP: ${data.ipAddress}</div>
+            <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-globe-americas"></i> País: ${data.countryName} (${data.countryCode})</div>
+            <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-city"></i> Ciudad: ${data.cityName}</div>
+            <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-map-marker-alt"></i> Región: ${data.regionName}</div>
+            <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-globe"></i> Continente: ${data.continentCode}</div>
+            <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-map-marker"></i> Latitud: ${data.latitude}</div>
+            <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-map-marker"></i> Longitud: ${data.longitude}</div>
+            <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-map-pin"></i> Código Postal: ${data.zipCode}</div>
+            <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-flag"></i> Código País: ${data.countryCode}</div>
+            <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-coins"></i> Código Moneda: ${data.currency.code}</div>
+            <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-coins"></i> Nombre Moneda: ${data.currency.name}</div>
+            <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-language"></i> Idiomas: ${data.language}</div>
+            <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-globe"></i> TLDs: ${data.tlds.join(', ')}</div>
+            <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-shield-alt"></i> Proxy: ${data.isProxy ? 'Sí' : 'No'}</div>
         </div>
     `;
-    
+
     checkNetworkStatus();
     updateTime(); // Llamar a updateTime para mostrar la hora local
 }
 
 function showLocation() {
     if (!ipData) return;
-    
+
     const mapContainer = document.getElementById('map-container');
     mapContainer.style.display = 'block';
-    
+
     mapContainer.innerHTML = `
         <iframe
             width="100%"
@@ -98,14 +96,14 @@ async function updateTime() {
         timeDiv.innerHTML = '<p>Zona horaria no disponible.</p>';
         return;
     }
-    
+
     const timeZoneData = await fetchTimeZoneAndTime(ipData.latitude, ipData.longitude);
     if (!timeZoneData || !timeZoneData.formatted) {
         const timeDiv = document.getElementById('current-time');
         timeDiv.innerHTML = '<p>Error al obtener la hora actual.</p>';
         return;
     }
-    
+
     const timeDiv = document.getElementById('current-time');
     if (timeDiv) {
         timeDiv.style.display = 'block';
@@ -114,6 +112,19 @@ async function updateTime() {
             <span>${timeZoneData.formatted}</span>
         `;
     }
+
+    // Actualizar la sección de zonas horarias y otros datos
+    const ipInfoDiv = document.getElementById('ip-info');
+    ipInfoDiv.innerHTML += `
+        <div class="info-grid">
+            <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-clock"></i> Zona Horaria: ${timeZoneData.zoneName}</div>
+            <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-clock"></i> Abreviatura: ${timeZoneData.abbreviation}</div>
+            <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-clock"></i> GMT Offset: ${timeZoneData.gmtOffset}</div>
+            <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-clock"></i> DST: ${timeZoneData.dst}</div>
+            <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-clock"></i> Hora Actual: ${timeZoneData.formatted}</div>
+            <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-clock"></i> Tipo de UTC: ${timeZoneData.gmtOffset >= 0 ? 'UTC+' : 'UTC'}${timeZoneData.gmtOffset / 3600}</div>
+        </div>
+    `;
 }
 
 function refreshDataAndScroll() {
@@ -124,9 +135,9 @@ function refreshDataAndScroll() {
 function scrollToElement(elementId) {
     const element = document.getElementById(elementId);
     if (element) {
-        element.scrollIntoView({ 
-            behavior: 'smooth', 
-            block: 'center' 
+        element.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
         });
     }
 }
@@ -134,7 +145,7 @@ function scrollToElement(elementId) {
 async function refreshData() {
     const ipInfoDiv = document.getElementById('ip-info');
     ipInfoDiv.innerHTML = '<div class="loader"></div><p>Cargando información...</p>';
-    
+
     ipData = await fetchIpInfo();
     displayIpInfo(ipData);
     showLocation(); // Actualizar el mapa
@@ -155,14 +166,14 @@ function checkNetworkStatus() {
     if (navigator.onLine) {
         networkStatus.innerHTML = `
             <div class="status-indicator online">
-                🟢 Conectado a Internet
+                <i class="fas fa-check-circle"></i> Conectado a Internet
             </div>
         `;
         startLatencyCheck();
     } else {
         networkStatus.innerHTML = `
             <div class="status-indicator offline">
-                🔴 Sin conexión a Internet
+                <i class="fas fa-times-circle"></i> Sin conexión a Internet
             </div>
         `;
         stopLatencyCheck();
@@ -171,7 +182,7 @@ function checkNetworkStatus() {
 
 function startLatencyCheck() {
     if (latencyInterval) return;
-    
+
     latencyInterval = setInterval(() => {
         const start = Date.now();
         fetch('https://www.google.com', { method: 'HEAD', mode: 'no-cors' })
@@ -180,7 +191,7 @@ function startLatencyCheck() {
                 const networkStatus = document.getElementById('network-status');
                 networkStatus.innerHTML = `
                     <div class="status-indicator online">
-                        🟢 Conectado a Internet (Latencia: ${latency} ms)
+                        <i class="fas fa-check-circle"></i> Conectado a Internet (Latencia: ${latency} ms)
                     </div>
                 `;
             })
@@ -188,7 +199,7 @@ function startLatencyCheck() {
                 const networkStatus = document.getElementById('network-status');
                 networkStatus.innerHTML = `
                     <div class="status-indicator offline">
-                        🔴 Sin conexión a Internet
+                        <i class="fas fa-times-circle"></i> Sin conexión a Internet
                     </div>
                 `;
             });
@@ -231,11 +242,11 @@ async function searchIp() {
     if (ipInput) {
         const ipInfoDiv = document.getElementById('ip-info');
         ipInfoDiv.innerHTML = '<div class="loader"></div><p>Cargando información...</p>';
-        
+
         ipData = await fetchIpInfo(ipInput);
         displayIpInfo(ipData);
         showLocation(); // Actualizar el mapa
-        
+
         if (ipData) {
             showNotification('success', 'Información de IP cargada con éxito.');
         } else {
@@ -254,7 +265,7 @@ function showNotification(type, message) {
     notification.className = `notification ${type}`;
     notification.textContent = message;
     notifications.appendChild(notification);
-    
+
     setTimeout(() => {
         notification.remove();
     }, 5000);
