@@ -8,9 +8,10 @@ async function fetchIpInfo(ip = '') {
     try {
         const response = await fetch(`https://freeipapi.com/api/json/${ip}`);
         const data = await response.json();
+        console.log('Datos obtenidos de la API de IP:', data); // Imprimir datos en la consola
         return data;
     } catch (error) {
-        console.error('Error:', error);
+        console.error('Error al obtener datos de la API de IP:', error);
         return null;
     }
 }
@@ -22,14 +23,15 @@ async function fetchTimeZoneAndTime(latitude, longitude) {
     try {
         const response = await fetch(apiUrl);
         const data = await response.json();
+        console.log('Datos obtenidos de la API de Zona Horaria:', data); // Imprimir datos en la consola
         return data;
     } catch (error) {
-        console.error('Error:', error);
+        console.error('Error al obtener datos de la API de Zona Horaria:', error);
         return null;
     }
 }
 
-function displayIpInfo(data) {
+function displayIpInfo(data, timeZoneData) {
     const ipInfoDiv = document.getElementById('ip-info');
     if (!data) {
         ipInfoDiv.innerHTML = `<p style="color: red">Error al cargar los datos. Por favor, intente nuevamente.</p>`;
@@ -54,10 +56,19 @@ function displayIpInfo(data) {
             <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-globe"></i> TLDs: ${data.tlds.join(', ')}</div>
             <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-shield-alt"></i> Proxy: ${data.isProxy ? 'Sí' : 'No'}</div>
         </div>
+        <h2>Información de Zona Horaria:</h2>
+        <div class="info-grid">
+            <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-clock"></i> Zona Horaria: ${timeZoneData.zoneName}</div>
+            <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-clock"></i> Abreviatura: ${timeZoneData.abbreviation}</div>
+            <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-clock"></i> GMT Offset: ${timeZoneData.gmtOffset}</div>
+            <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-clock"></i> DST: ${timeZoneData.dst}</div>
+            <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-clock"></i> Hora Actual: ${timeZoneData.formatted}</div>
+            <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-clock"></i> Tipo de UTC: ${timeZoneData.gmtOffset >= 0 ? 'UTC+' : 'UTC'}${timeZoneData.gmtOffset / 3600}</div>
+        </div>
     `;
 
     checkNetworkStatus();
-    updateTime(); // Llamar a updateTime para mostrar la hora local
+    updateCurrentTime(timeZoneData.zoneName);
 }
 
 function showLocation() {
@@ -80,46 +91,38 @@ function showLocation() {
     `;
 }
 
-function toggleTime() {
-    const timeDiv = document.getElementById('current-time');
-    if (timeDiv.style.display === 'none' || timeDiv.style.display === '') {
-        timeDiv.style.display = 'block';
-        updateTime();
-        timeInterval = setInterval(updateTime, 1000);
-    } else {
-        timeDiv.style.display = 'none';
-        if (timeInterval) clearInterval(timeInterval);
-    }
-}
-
-async function updateTime() {
-    if (!ipData || !ipData.latitude || !ipData.longitude) {
-        const timeDiv = document.getElementById('current-time');
-        timeDiv.innerHTML = '<p>Zona horaria no disponible.</p>';
+function updateCurrentTime(zoneName) {
+    const currentTimeDiv = document.getElementById('current-time');
+    if (!zoneName) {
+        currentTimeDiv.innerHTML = '<p>Zona horaria no disponible.</p>';
         return;
     }
 
-    const timeZoneData = await fetchTimeZoneAndTime(ipData.latitude, ipData.longitude);
-    if (!timeZoneData || !timeZoneData.formatted) {
-        const timeDiv = document.getElementById('current-time');
-        timeDiv.innerHTML = '<p>Error al obtener la hora actual.</p>';
-        return;
-    }
-
-    const timeDiv = document.getElementById('current-time');
-    if (timeDiv) {
-        timeDiv.style.display = 'block';
-        timeDiv.innerHTML = `
+    const updateTime = () => {
+        const now = new Date();
+        const formatter = new Intl.DateTimeFormat('es-ES', {
+            timeZone: zoneName,
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false
+        });
+        const formattedTime = formatter.format(now);
+        currentTimeDiv.innerHTML = `
             <strong>Hora local en ${ipData.cityName}:</strong>
-            <span>${timeZoneData.formatted}</span>
+            <span>${formattedTime}</span>
         `;
-    }
+    };
+
+    if (timeInterval) clearInterval(timeInterval);
+    updateTime();
+    timeInterval = setInterval(updateTime, 1000);
 }
 
 function refreshDataAndScroll() {
     if (requestCount >= 1) {
         showNotification('error', 'Has alcanzado el límite de solicitudes. Inténtalo de nuevo más tarde.');
-        blockButtons();
+        disableButtons();
         return;
     }
     requestCount++;
@@ -142,16 +145,43 @@ async function refreshData() {
     const ipInfoDiv = document.getElementById('ip-info');
     ipInfoDiv.innerHTML = '<div class="loader"></div><p>Cargando información...</p>';
 
+    const apiStatusIp = document.getElementById('api-status-ip').querySelector('.status-indicator');
+    const apiStatusTimezone = document.getElementById('api-status-timezone').querySelector('.status-indicator');
+
+    apiStatusIp.className = 'status-indicator loading';
+    apiStatusTimezone.className = 'status-indicator loading';
+
     ipData = await fetchIpInfo();
-    displayIpInfo(ipData);
+    if (ipData) {
+        apiStatusIp.className = 'status-indicator success';
+        apiStatusIp.textContent = 'Éxito';
+    } else {
+        apiStatusIp.className = 'status-indicator error';
+        apiStatusIp.textContent = 'Error';
+    }
+
+    if (ipData && ipData.latitude && ipData.longitude) {
+        const timeZoneData = await fetchTimeZoneAndTime(ipData.latitude, ipData.longitude);
+        if (timeZoneData) {
+            apiStatusTimezone.className = 'status-indicator success';
+            apiStatusTimezone.textContent = 'Éxito';
+        } else {
+            apiStatusTimezone.className = 'status-indicator error';
+            apiStatusTimezone.textContent = 'Error';
+        }
+        displayIpInfo(ipData, timeZoneData);
+    } else {
+        apiStatusTimezone.className = 'status-indicator error';
+        apiStatusTimezone.textContent = 'Error';
+        displayIpInfo(ipData, null);
+    }
     showLocation(); // Actualizar el mapa
-    updateTime(); // Actualizar la hora local
 }
 
 function showLocationAndScroll() {
     if (requestCount >= 1) {
         showNotification('error', 'Has alcanzado el límite de solicitudes. Inténtalo de nuevo más tarde.');
-        blockButtons();
+        disableButtons();
         return;
     }
     requestCount++;
@@ -160,16 +190,16 @@ function showLocationAndScroll() {
     resetRequestCount();
 }
 
-function toggleTimeAndScroll() {
-    if (requestCount >= 1) {
-        showNotification('error', 'Has alcanzado el límite de solicitudes. Inténtalo de nuevo más tarde.');
-        blockButtons();
-        return;
-    }
-    requestCount++;
-    toggleTime();
-    scrollToElement('current-time');
-    resetRequestCount();
+function disableButtons() {
+    const buttons = document.querySelectorAll('.button-container button');
+    buttons.forEach(button => {
+        button.disabled = true;
+    });
+    setTimeout(() => {
+        buttons.forEach(button => {
+            button.disabled = false;
+        });
+    }, 1000); // Bloquear botones por 1 segundo
 }
 
 function checkNetworkStatus() {
@@ -245,16 +275,13 @@ window.addEventListener('online', checkNetworkStatus);
 window.addEventListener('offline', checkNetworkStatus);
 
 // Cargar datos al iniciar
-window.onload = async function() {
-    await refreshData();
-    updateTime(); // Cargar la hora local al iniciar
-};
+window.onload = refreshData;
 
 // Función para buscar una IP específica
 async function searchIp() {
     if (requestCount >= 1) {
         showNotification('error', 'Has alcanzado el límite de solicitudes. Inténtalo de nuevo más tarde.');
-        blockButtons();
+        disableButtons();
         return;
     }
     requestCount++;
@@ -264,10 +291,37 @@ async function searchIp() {
         const ipInfoDiv = document.getElementById('ip-info');
         ipInfoDiv.innerHTML = '<div class="loader"></div><p>Cargando información...</p>';
 
+        const apiStatusIp = document.getElementById('api-status-ip').querySelector('.status-indicator');
+        const apiStatusTimezone = document.getElementById('api-status-timezone').querySelector('.status-indicator');
+
+        apiStatusIp.className = 'status-indicator loading';
+        apiStatusTimezone.className = 'status-indicator loading';
+
         ipData = await fetchIpInfo(ipInput);
-        displayIpInfo(ipData);
+        if (ipData) {
+            apiStatusIp.className = 'status-indicator success';
+            apiStatusIp.textContent = 'Éxito';
+        } else {
+            apiStatusIp.className = 'status-indicator error';
+            apiStatusIp.textContent = 'Error';
+        }
+
+        if (ipData && ipData.latitude && ipData.longitude) {
+            const timeZoneData = await fetchTimeZoneAndTime(ipData.latitude, ipData.longitude);
+            if (timeZoneData) {
+                apiStatusTimezone.className = 'status-indicator success';
+                apiStatusTimezone.textContent = 'Éxito';
+            } else {
+                apiStatusTimezone.className = 'status-indicator error';
+                apiStatusTimezone.textContent = 'Error';
+            }
+            displayIpInfo(ipData, timeZoneData);
+        } else {
+            apiStatusTimezone.className = 'status-indicator error';
+            apiStatusTimezone.textContent = 'Error';
+            displayIpInfo(ipData, null);
+        }
         showLocation(); // Actualizar el mapa
-        updateTime(); // Actualizar la hora local
 
         if (ipData) {
             showNotification('success', 'Información de IP cargada con éxito.');
@@ -316,55 +370,10 @@ function copyToClipboard(element) {
     });
 }
 
-// Función para reiniciar el contador de solicitudes después de 0.97 segundos
+// Función para reiniciar el contador de solicitudes después de 0.95 segundos
 function resetRequestCount() {
     if (requestTimer) clearTimeout(requestTimer);
     requestTimer = setTimeout(() => {
         requestCount = 0;
-        unblockButtons();
-    }, 970);
+    }, 950);
 }
-
-// Función para bloquear botones
-function blockButtons() {
-    const buttons = document.querySelectorAll('.btn');
-    buttons.forEach(button => {
-        button.disabled = true;
-        button.style.opacity = '0.5';
-        button.style.cursor = 'not-allowed';
-    });
-}
-
-// Función para desbloquear botones
-function unblockButtons() {
-    const buttons = document.querySelectorAll('.btn');
-    buttons.forEach(button => {
-        button.disabled = false;
-        button.style.opacity = '1';
-        button.style.cursor = 'pointer';
-    });
-}
-
-// Función para exportar datos a JSON solo si hay datos disponibles
-function exportToJson() {
-    if (!ipData) {
-        showNotification('error', 'No hay datos para exportar.');
-        return;
-    }
-
-    const jsonData = JSON.stringify(ipData, null, 2);
-    const blob = new Blob([jsonData], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `ip_data_${ipData.ipAddress}.json`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-
-    showNotification('success', 'Datos exportados a JSON con éxito.');
-}
-
-// Añadir evento al botón de exportar a JSON
-document.getElementById('export-json-button').addEventListener('click', exportToJson);

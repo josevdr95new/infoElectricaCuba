@@ -21,10 +21,6 @@
                 <span><i class="fas fa-map-marker-alt"></i></span>
                 <span>Ver en Mapa</span>
             </button>
-            <button class="btn btn-time" onclick="toggleTimeAndScroll()">
-                <span><i class="fas fa-clock"></i></span>
-                <span>Hora Local</span>
-            </button>
             <button id="share-whatsapp-button" class="btn btn-share">
                 <span><i class="fas fa-share-alt"></i></span>
                 <span>Compartir</span>
@@ -36,10 +32,6 @@
             <button id="speed-test-button" class="btn btn-speed">
                 <span><i class="fas fa-tachometer-alt"></i></span>
                 <span>Test de Velocidad</span>
-            </button>
-            <button id="export-json-button" class="btn btn-export">
-                <span><i class="fas fa-file-export"></i></span>
-                <span>Exportar a JSON</span>
             </button>
         </div>
 
@@ -56,6 +48,12 @@
         <div id="ip-info">
             <div class="loader"></div>
             <p>Cargando información...</p>
+        </div>
+
+        <div id="api-status">
+            <h2>Estado de las APIs:</h2>
+            <div id="api-status-ip">API de IP: <span class="status-indicator"></span></div>
+            <div id="api-status-timezone">API de Zona Horaria: <span class="status-indicator"></span></div>
         </div>
 
         <div class="disclaimer">

@@ -24,34 +24,33 @@ body {
 
 .button-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 5px;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
     margin: 20px 0;
 }
 
 .btn {
     width: 100%;
     font-size: 0.8em; /* Reducir el tamaño de fuente para todos los botones */
-    padding: 5px 10px; /* Reducir el padding para todos los botones */
-    border: 1px solid #444; /* Gris medio */
-    border-radius: 4px;
+    padding: 8px 12px; /* Reducir el padding para todos los botones */
+    border: 2px solid #444; /* Gris medio */
+    border-radius: 8px;
     color: #d3d3d3; /* Gris claro */
     cursor: pointer;
     transition: transform 0.2s ease, background 0.2s ease;
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 4px;
+    gap: 6px;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     background: #2e2e2e; /* Gris oscuro */
-    box-shadow: 0 1px 5px rgba(64, 64, 64, 0.2); /* Gris medio con transparencia */
+    box-shadow: 0 2px 10px rgba(64, 64, 64, 0.2); /* Gris medio con transparencia */
 }
 
 .btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(64, 64, 64, 0.25); /* Gris medio con transparencia */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(64, 64, 64, 0.25); /* Gris medio con transparencia */
     background: #444; /* Gris medio */
     color: #d3d3d3; /* Gris claro */
 }
@@ -66,7 +65,6 @@ body {
 .btn-map { border-color: #FF9800; }
 .btn-time { border-color: #607D8B; }
 .btn-speed { border-color: #FFC107; }
-.btn-export { border-color: #4CAF50; }
 
 #map-container {
     height: 200px;
