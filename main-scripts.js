@@ -1,6 +1,8 @@
 let ipData = null;
 let timeInterval = null;
 let latencyInterval = null;
+let requestCount = 0; // Contador de solicitudes
+let requestTimer = null; // Temporizador para reiniciar el contador
 
 async function fetchIpInfo(ip = '') {
     try {
@@ -128,8 +130,15 @@ async function updateTime() {
 }
 
 function refreshDataAndScroll() {
+    if (requestCount >= 1) {
+        showNotification('error', 'Has alcanzado el límite de solicitudes. Inténtalo de nuevo más tarde.');
+        blockButtons();
+        return;
+    }
+    requestCount++;
     refreshData();
     scrollToElement('ip-info');
+    resetRequestCount();
 }
 
 function scrollToElement(elementId) {
@@ -152,13 +161,27 @@ async function refreshData() {
 }
 
 function showLocationAndScroll() {
+    if (requestCount >= 1) {
+        showNotification('error', 'Has alcanzado el límite de solicitudes. Inténtalo de nuevo más tarde.');
+        blockButtons();
+        return;
+    }
+    requestCount++;
     showLocation();
     scrollToElement('map-container');
+    resetRequestCount();
 }
 
 function toggleTimeAndScroll() {
+    if (requestCount >= 1) {
+        showNotification('error', 'Has alcanzado el límite de solicitudes. Inténtalo de nuevo más tarde.');
+        blockButtons();
+        return;
+    }
+    requestCount++;
     toggleTime();
     scrollToElement('current-time');
+    resetRequestCount();
 }
 
 function checkNetworkStatus() {
@@ -238,6 +261,13 @@ window.onload = refreshData;
 
 // Función para buscar una IP específica
 async function searchIp() {
+    if (requestCount >= 1) {
+        showNotification('error', 'Has alcanzado el límite de solicitudes. Inténtalo de nuevo más tarde.');
+        blockButtons();
+        return;
+    }
+    requestCount++;
+
     const ipInput = document.getElementById('ip-input').value.trim();
     if (ipInput) {
         const ipInfoDiv = document.getElementById('ip-info');
@@ -255,6 +285,8 @@ async function searchIp() {
     } else {
         showNotification('error', 'Por favor, ingrese una dirección IP válida.');
     }
+
+    resetRequestCount();
 }
 
 // Función para mostrar notificaciones
@@ -291,3 +323,56 @@ function copyToClipboard(element) {
         showNotification('error', 'Error al copiar al portapapeles.');
     });
 }
+
+// Función para reiniciar el contador de solicitudes después de 0.97 segundos
+function resetRequestCount() {
+    if (requestTimer) clearTimeout(requestTimer);
+    requestTimer = setTimeout(() => {
+        requestCount = 0;
+        unblockButtons();
+    }, 970);
+}
+
+// Función para bloquear botones
+function blockButtons() {
+    const buttons = document.querySelectorAll('.btn');
+    buttons.forEach(button => {
+        button.disabled = true;
+        button.style.opacity = '0.5';
+        button.style.cursor = 'not-allowed';
+    });
+}
+
+// Función para desbloquear botones
+function unblockButtons() {
+    const buttons = document.querySelectorAll('.btn');
+    buttons.forEach(button => {
+        button.disabled = false;
+        button.style.opacity = '1';
+        button.style.cursor = 'pointer';
+    });
+}
+
+// Función para exportar datos a JSON solo si hay datos disponibles
+function exportToJson() {
+    if (!ipData) {
+        showNotification('error', 'No hay datos para exportar.');
+        return;
+    }
+
+    const jsonData = JSON.stringify(ipData, null, 2);
+    const blob = new Blob([jsonData], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `ip_data_${ipData.ipAddress}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    showNotification('success', 'Datos exportados a JSON con éxito.');
+}
+
+// Añadir evento al botón de exportar a JSON
+document.getElementById('export-json-button').addEventListener('click', exportToJson);
