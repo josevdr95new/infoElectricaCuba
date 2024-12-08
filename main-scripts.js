@@ -145,6 +145,7 @@ async function refreshData() {
     ipData = await fetchIpInfo();
     displayIpInfo(ipData);
     showLocation(); // Actualizar el mapa
+    updateTime(); // Actualizar la hora local
 }
 
 function showLocationAndScroll() {
@@ -266,6 +267,7 @@ async function searchIp() {
         ipData = await fetchIpInfo(ipInput);
         displayIpInfo(ipData);
         showLocation(); // Actualizar el mapa
+        updateTime(); // Actualizar la hora local
 
         if (ipData) {
             showNotification('success', 'Información de IP cargada con éxito.');
