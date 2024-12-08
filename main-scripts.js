@@ -114,19 +114,6 @@ async function updateTime() {
             <span>${timeZoneData.formatted}</span>
         `;
     }
-
-    // Actualizar la sección de zonas horarias y otros datos
-    const ipInfoDiv = document.getElementById('ip-info');
-    ipInfoDiv.innerHTML += `
-        <div class="info-grid">
-            <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-clock"></i> Zona Horaria: ${timeZoneData.zoneName}</div>
-            <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-clock"></i> Abreviatura: ${timeZoneData.abbreviation}</div>
-            <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-clock"></i> GMT Offset: ${timeZoneData.gmtOffset}</div>
-            <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-clock"></i> DST: ${timeZoneData.dst}</div>
-            <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-clock"></i> Hora Actual: ${timeZoneData.formatted}</div>
-            <div class="info-item" onclick="copyToClipboard(this)"><i class="fas fa-clock"></i> Tipo de UTC: ${timeZoneData.gmtOffset >= 0 ? 'UTC+' : 'UTC'}${timeZoneData.gmtOffset / 3600}</div>
-        </div>
-    `;
 }
 
 function refreshDataAndScroll() {
@@ -257,7 +244,10 @@ window.addEventListener('online', checkNetworkStatus);
 window.addEventListener('offline', checkNetworkStatus);
 
 // Cargar datos al iniciar
-window.onload = refreshData;
+window.onload = async function() {
+    await refreshData();
+    updateTime(); // Cargar la hora local al iniciar
+};
 
 // Función para buscar una IP específica
 async function searchIp() {
